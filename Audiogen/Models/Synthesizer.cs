@@ -59,7 +59,7 @@
                             _frameInputNode.AddOutgoingConnection(nodeResult.DeviceOutputNode);
                             _frameInputNode.QuantumStarted += this.OnQuantumStarted;
                             _channelsNumber = _audioGraph.EncodingProperties.ChannelCount;
-                            _waveSource = new WaveSource();
+                            _waveSource = new WaveSource(_audioGraph.EncodingProperties.SampleRate, _channelsNumber);
                             this.EmitReady();
                         }
                     });
@@ -89,17 +89,23 @@
 
         private void OnQuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs e)
         {
-            AudioFrame frame = new AudioFrame((uint)e.RequiredSamples * _channelsNumber * sizeof(float));
+            AudioFrame frame = GenerateAudioFrame(e.RequiredSamples);
+            sender.AddFrame(frame);
+        }
+
+        private AudioFrame GenerateAudioFrame(int samplesNumber)
+        {
+            AudioFrame frame = new AudioFrame((uint)samplesNumber * _channelsNumber * sizeof(float));
 
             using (AudioBuffer buffer = frame.LockBuffer(AudioBufferAccessMode.Write))
             {
                 using (IMemoryBufferReference reference = buffer.CreateReference())
                 {
-                    _waveSource.GenerateWave(reference, _channelsNumber, e.RequiredSamples);
+                    _waveSource.GenerateWave(reference, samplesNumber);
                 }
             }
 
-            sender.AddFrame(frame);
+            return frame;
         }
     }
 }

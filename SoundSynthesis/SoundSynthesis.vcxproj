@@ -207,10 +207,12 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Helpers\Oscillator.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Runtime\WaveSource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Helpers\Oscillator.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
