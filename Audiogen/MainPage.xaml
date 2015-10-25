@@ -10,6 +10,10 @@
     xmlns:models="using:Audiogen.Models"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <helpers:BoleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+    </Page.Resources>
+
     <Page.DataContext>
         <vm:MainPageViewModel>
             <vm:MainPageViewModel.Dispatcher>
@@ -22,6 +26,26 @@
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
 
+        <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                    Visibility="{Binding IsInitializing, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch"/>
+            <TextBlock HorizontalAlignment="Center" Text="Initializing the synthesizer" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
+                    Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Margin="5,0">Start</Button>
+            <Button Margin="5,0">Stop</Button>
+        </StackPanel>
+
+        <TextBlock Grid.Row="2"
+                   Visibility="{Binding IsFailed, Converter={StaticResource BooleanToVisibilityConverter}}"
+                   Text="The synthesizer has failed to initialize"/>
     </Grid>
 </Page>

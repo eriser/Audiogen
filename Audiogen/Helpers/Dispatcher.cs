@@ -9,7 +9,14 @@
     {
         void IDispatcher.Dispatch(Action action)
         {
-            var ignored = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+            if (this.Dispatcher.HasThreadAccess)
+            {
+                action();
+            }
+            else
+            {
+                var ignored = this.Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () => action());
+            }
         }
     }
 }
