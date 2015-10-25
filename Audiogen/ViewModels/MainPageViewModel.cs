@@ -1,11 +1,14 @@
 ﻿namespace Audiogen.ViewModels
 {
+    using Helpers;
     using Audiogen.Models;
     using System;
     using System.Windows.Input;
 
     sealed class MainPageViewModel : ViewModelBase
     {
+        private readonly DelegateCommand _start;
+        private readonly DelegateCommand _stop;
         private IDispatcher _dispatcher;
         private ISynthesizer _synthesizer;
         private bool _isInitializing;
@@ -14,6 +17,8 @@
 
         public MainPageViewModel()
         {
+            _start = new DelegateCommand(this.ExecuteStart, this.CanExecuteStart);
+            _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
             _isInitializing = true;
         }
 
@@ -107,6 +112,24 @@
         private void OnSynthesizerFailed(object sender, EventArgs e)
         {
             this.Dispatcher.Dispatch(() => this.IsFailed = true);
+        }
+
+        private void ExecuteStart(object parameter)
+        {
+        }
+
+        private bool CanExecuteStart(object parameter)
+        {
+            return false;
+        }
+
+        private void ExecuteStop(object parameter)
+        {
+        }
+
+        private bool CanExecuteStop(object parameter)
+        {
+            return false;
         }
     }
 }

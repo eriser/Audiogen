@@ -103,6 +103,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BoleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
