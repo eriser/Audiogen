@@ -67,6 +67,16 @@
             });
         }
 
+        void ISynthesizer.Start()
+        {
+            _audioGraph.Start();
+        }
+
+        void ISynthesizer.Stop()
+        {
+            _audioGraph.Stop();
+        }
+
         private void EmitReady()
         {
             this.Ready?.Invoke(this, EventArgs.Empty);
@@ -86,9 +96,10 @@
                 using (IMemoryBufferReference reference = buffer.CreateReference())
                 {
                     _waveSource.GenerateWave(reference, _channelsNumber, e.RequiredSamples);
-                    sender.AddFrame(frame);
                 }
             }
+
+            sender.AddFrame(frame);
         }
     }
 }

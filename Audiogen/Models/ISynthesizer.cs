@@ -18,5 +18,9 @@
         /// Set up the synthesizer and emit Ready or Failed event upon completion of initialization.
         /// </summary>
         void SetUp();
+
+        void Start();
+
+        void Stop();
     }
 }

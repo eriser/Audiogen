@@ -120,6 +120,10 @@
 
         private void ExecuteStart(object parameter)
         {
+            _synthesizer.Start();
+            _isRunning = true;
+            _start.EmitCanExecuteChanged();
+            _stop.EmitCanExecuteChanged();
         }
 
         private bool CanExecuteStart(object parameter)
@@ -129,6 +133,10 @@
 
         private void ExecuteStop(object parameter)
         {
+            _synthesizer.Stop();
+            _isRunning = false;
+            _start.EmitCanExecuteChanged();
+            _stop.EmitCanExecuteChanged();
         }
 
         private bool CanExecuteStop(object parameter)
