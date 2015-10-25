@@ -6,5 +6,10 @@ namespace SoundSynthesis { namespace Runtime
 	{
 	public:
 		WaveSource();
+
+		void GenerateWave(
+			Windows::Foundation::IMemoryBufferReference ^bufferReference,
+			unsigned int channelsNumber,
+			int samplesNumber);
 	};
 }}

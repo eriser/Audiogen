@@ -2,6 +2,7 @@
 {
     using Audiogen.Models;
     using System;
+    using System.Windows.Input;
 
     sealed class MainPageViewModel : ViewModelBase
     {
@@ -78,6 +79,16 @@
                 if(this.SetProperty(ref _isFailed, value))
                     this.IsInitializing = !(_isReady || _isFailed);
             }
+        }
+
+        public ICommand Start
+        {
+            get { return null; }
+        }
+
+        public ICommand Stop
+        {
+            get { return null; }
         }
 
         private void SetUpSynthesizerIfFullyComposed()

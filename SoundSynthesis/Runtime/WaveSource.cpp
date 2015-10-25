@@ -7,3 +7,11 @@ using namespace Platform;
 WaveSource::WaveSource()
 {
 }
+
+void WaveSource::GenerateWave(
+	Windows::Foundation::IMemoryBufferReference ^bufferReference,
+	unsigned int channelsNumber,
+	int samplesNumber)
+{
+
+}
