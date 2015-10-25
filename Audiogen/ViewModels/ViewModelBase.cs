@@ -10,14 +10,18 @@
         /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        protected void SetProperty<TPropertyType>(ref TPropertyType propertyVariable, TPropertyType newValue,
+        protected bool SetProperty<TPropertyType>(ref TPropertyType propertyVariable, TPropertyType newValue,
             [CallerMemberName] string propertyName = null)
         {
-            if(!object.Equals(propertyVariable, newValue))
+            bool valueChanged = !object.Equals(propertyVariable, newValue);
+
+            if (valueChanged)
             {
                 propertyVariable = newValue;
                 EmitPropertyChanged(propertyName);
             }
+
+            return valueChanged;
         }
         protected void EmitPropertyChanged(string propertyName)
         {

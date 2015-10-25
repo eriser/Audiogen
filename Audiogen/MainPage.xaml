@@ -6,10 +6,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:vm="using:Audiogen.ViewModels"
+    xmlns:helpers="using:Audiogen.Helpers"
+    xmlns:models="using:Audiogen.Models"
     mc:Ignorable="d">
 
     <Page.DataContext>
-        <vm:MainPageViewModel />
+        <vm:MainPageViewModel>
+            <vm:MainPageViewModel.Dispatcher>
+                <helpers:Dispatcher/>
+            </vm:MainPageViewModel.Dispatcher>
+            <vm:MainPageViewModel.Synthesizer>
+                <models:Synthesizer/>
+            </vm:MainPageViewModel.Synthesizer>
+        </vm:MainPageViewModel>
     </Page.DataContext>
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
