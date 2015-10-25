@@ -14,12 +14,16 @@
         private bool _isInitializing;
         private bool _isReady;
         private bool _isFailed;
+        private bool _isRunning;
 
         public MainPageViewModel()
         {
             _start = new DelegateCommand(this.ExecuteStart, this.CanExecuteStart);
             _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
             _isInitializing = true;
+            _isReady = false;
+            _isFailed = false;
+            _isRunning = false;
         }
 
         public IDispatcher Dispatcher
@@ -88,12 +92,12 @@
 
         public ICommand Start
         {
-            get { return null; }
+            get { return _start; }
         }
 
         public ICommand Stop
         {
-            get { return null; }
+            get { return _stop; }
         }
 
         private void SetUpSynthesizerIfFullyComposed()
@@ -120,7 +124,7 @@
 
         private bool CanExecuteStart(object parameter)
         {
-            return false;
+            return !_isRunning;
         }
 
         private void ExecuteStop(object parameter)
@@ -129,7 +133,7 @@
 
         private bool CanExecuteStop(object parameter)
         {
-            return false;
+            return _isRunning;
         }
     }
 }
