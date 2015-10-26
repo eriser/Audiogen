@@ -22,8 +22,8 @@ void WaveSource::GenerateWave(
 
 		if (S_OK == byteAccess->GetBuffer(&bufferBytes, &bufferCapacity))
 		{
-			// TODO: Ask the oscillator to produce wave data.
-			m_oscillator.GenerateSamples(bufferBytes, bufferCapacity);
+			// Ask the oscillator to produce wave data.
+			m_oscillator.GenerateSamples(samplesNumber, bufferBytes, bufferCapacity);
 		}
 
 		byteAccess->Release();

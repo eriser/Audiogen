@@ -17,6 +17,10 @@
         private WaveSource _waveSource;
         private uint _channelsNumber;
 
+        public Synthesizer()
+        {
+        }
+
         /// <summary>
         /// ISynthesizer.Ready
         /// </summary>
@@ -89,8 +93,10 @@
 
         private void OnQuantumStarted(AudioFrameInputNode sender, FrameInputNodeQuantumStartedEventArgs e)
         {
-            AudioFrame frame = GenerateAudioFrame(e.RequiredSamples);
-            sender.AddFrame(frame);
+            if(e.RequiredSamples > 0)
+            {
+                sender.AddFrame(GenerateAudioFrame(e.RequiredSamples));
+            }
         }
 
         private AudioFrame GenerateAudioFrame(int samplesNumber)
