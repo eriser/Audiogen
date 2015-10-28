@@ -9,6 +9,7 @@
     {
         private readonly DelegateCommand _start;
         private readonly DelegateCommand _stop;
+        private readonly PointerHandler _pointerHandler;
         private IDispatcher _dispatcher;
         private ISynthesizer _synthesizer;
         private bool _isInitializing;
@@ -20,6 +21,7 @@
         {
             _start = new DelegateCommand(this.ExecuteStart, this.CanExecuteStart);
             _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
+            _pointerHandler = new PointerHandler();
             _isInitializing = true;
             _isReady = false;
             _isFailed = false;
@@ -90,6 +92,11 @@
             }
         }
 
+        public IPointerHandler PointerHandler
+        {
+            get { return _pointerHandler; }
+        }
+
         public ICommand Start
         {
             get { return _start; }
@@ -110,7 +117,11 @@
 
         private void OnSynthesizerReady(object sender, EventArgs e)
         {
-            this.Dispatcher.Dispatch(() => this.IsReady = true);
+            this.Dispatcher.Dispatch(() =>
+            {
+                _pointerHandler.SetSynthesizer(_synthesizer);
+                this.IsReady = true;
+            });
         }
 
         private void OnSynthesizerFailed(object sender, EventArgs e)

@@ -8,6 +8,7 @@
     xmlns:vm="using:Audiogen.ViewModels"
     xmlns:helpers="using:Audiogen.Helpers"
     xmlns:models="using:Audiogen.Models"
+    xmlns:controls="using:Audiogen.Controls"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -37,6 +38,10 @@
             <ProgressBar IsIndeterminate="True" HorizontalAlignment="Stretch"/>
             <TextBlock HorizontalAlignment="Center" Text="Initializing the synthesizer" />
         </StackPanel>
+
+        <controls:Touchboard Grid.Row="0"
+                             Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             PointerHandler="{Binding PointerHandler}"/>
 
         <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Center"
                     Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}">
