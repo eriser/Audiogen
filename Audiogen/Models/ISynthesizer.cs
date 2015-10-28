@@ -1,5 +1,6 @@
 ﻿namespace Audiogen.Models
 {
+    using ViewModels;
     using System;
 
     interface ISynthesizer
@@ -22,5 +23,11 @@
         void Start();
 
         void Stop();
+
+        void BeginTone(PointerPosition position);
+
+        void ChangeTone(PointerPosition position);
+
+        void EndTone();
     }
 }

@@ -19,17 +19,17 @@
 
         void IPointerHandler.Down(PointerPosition position)
         {
-            Debug.WriteLine("Pointer down at ({0}:{1})", position.X, position.Y);
+            _synthesizer.BeginTone(position);
         }
 
         void IPointerHandler.Move(PointerPosition position)
         {
-            Debug.WriteLine("Pointer moved to ({0}:{1})", position.X, position.Y);
+            _synthesizer.ChangeTone(position);
         }
 
         void IPointerHandler.Up()
         {
-            Debug.WriteLine("Pointer up");
+            _synthesizer.EndTone();
         }
     }
 }

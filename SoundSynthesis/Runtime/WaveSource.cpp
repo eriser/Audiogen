@@ -9,6 +9,10 @@ WaveSource::WaveSource(unsigned int samplingRate, unsigned int channelsNumber)
 {
 }
 
+WaveSource::~WaveSource()
+{
+}
+
 void WaveSource::GenerateWave(
 	Windows::Foundation::IMemoryBufferReference ^bufferReference,
 	int samplesNumber)
@@ -28,4 +32,19 @@ void WaveSource::GenerateWave(
 
 		byteAccess->Release();
 	}
+}
+
+void WaveSource::BeginWave(double position, double effect)
+{
+	m_oscillator.Begin(position, effect);
+}
+
+void WaveSource::ChangeWave(double position, double effect)
+{
+	m_oscillator.Change(position, effect);
+}
+
+void WaveSource::EndWave()
+{
+	m_oscillator.End();
 }

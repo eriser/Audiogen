@@ -10,9 +10,16 @@ namespace SoundSynthesis { namespace Runtime
 
 	public:
 		WaveSource(unsigned int samplingRate, unsigned int channelsNumber);
+		virtual ~WaveSource();
 
 		void GenerateWave(
 			Windows::Foundation::IMemoryBufferReference ^bufferReference,
 			int samplesNumber);
+
+		void BeginWave(double position, double effect);
+
+		void ChangeWave(double position, double effect);
+
+		void EndWave();
 	};
 }}

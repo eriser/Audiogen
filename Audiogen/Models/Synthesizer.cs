@@ -6,6 +6,7 @@
     using Windows.Media;
     using Windows.Media.Audio;
     using Windows.Media.Render;
+    using ViewModels;
 
     /// <summary>
     /// Class hides complexity of AudioGraph setup.
@@ -79,6 +80,21 @@
         void ISynthesizer.Stop()
         {
             _audioGraph.Stop();
+        }
+
+        void ISynthesizer.BeginTone(PointerPosition position)
+        {
+            _waveSource.BeginWave(position.X, position.Y);
+        }
+
+        void ISynthesizer.ChangeTone(PointerPosition position)
+        {
+            _waveSource.ChangeWave(position.X, position.Y);
+        }
+
+        void ISynthesizer.EndTone()
+        {
+            _waveSource.EndWave();
         }
 
         private void EmitReady()
