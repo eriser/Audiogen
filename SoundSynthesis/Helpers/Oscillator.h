@@ -7,7 +7,7 @@ namespace SoundSynthesis { namespace Helpers
 		CRITICAL_SECTION m_guard;
 		const unsigned int m_samplingRate;
 		const unsigned int m_channelsNumber;
-		unsigned long m_samplesGenerated;
+		double m_initialPhase;
 		bool m_generating;
 		double m_frequency;
 

@@ -7,7 +7,7 @@ namespace SoundSynthesis {
 		Oscillator::Oscillator(unsigned int samplingRate, unsigned int channelsNumber)
 		:	m_samplingRate(samplingRate),
 			m_channelsNumber(channelsNumber),
-			m_samplesGenerated( 0 ),
+			m_initialPhase(0.0),
 			m_generating(false),
 			m_frequency( 880.0 )
 		{
@@ -36,25 +36,26 @@ namespace SoundSynthesis {
 
 			if (generating)
 			{
+				double freqToRate = frequency / m_samplingRate;
+				double M_2PI = 2.0 * M_PI;
+				double samplePhase = M_2PI * freqToRate;
+				double t;
+
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
 					// sin(sample# / m_samplingRate * 2 Pi * frequency)
-					double t = 2.0 * 3.1415926 * frequency * m_samplesGenerated / m_samplingRate;
+					t = m_initialPhase + sample * samplePhase;
 					float fSample = static_cast<float>(sin(t));
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
 						*(samples++) = fSample;
-					++m_samplesGenerated;
-					if (m_samplesGenerated > m_samplingRate)
-						m_samplesGenerated = 0;
 				}
+
+				m_initialPhase = remainder(t, M_2PI);
 			}
 			else
 			{
 				SecureZeroMemory(buffer, capacity);
-				m_samplesGenerated += samplesNumber;
-				if (m_samplesGenerated > m_samplingRate)
-					m_samplesGenerated = 0;
 			}
 		}
 

@@ -36,7 +36,7 @@
         {
             AudioGraphSettings settings = new AudioGraphSettings(AudioRenderCategory.Media)
             {
-                QuantumSizeSelectionMode = QuantumSizeSelectionMode.LowestLatency
+                //QuantumSizeSelectionMode = QuantumSizeSelectionMode.LowestLatency
             };
 
             AudioGraph.CreateAsync(settings).AsTask().ContinueWith(graphTask =>
