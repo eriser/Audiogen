@@ -7,7 +7,7 @@ namespace SoundSynthesis {
 		Oscillator::Oscillator(unsigned int samplingRate, unsigned int channelsNumber)
 		:	m_samplingRate(samplingRate),
 			m_channelsNumber(channelsNumber),
-			m_initialPhase(0.0),
+			m_phaseOffset(0.0),
 			m_generating(false),
 			m_frequency( 880.0 )
 		{
@@ -21,7 +21,9 @@ namespace SoundSynthesis {
 
 		void Oscillator::GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity)
 		{
-			double generating, frequency;
+			const double M_2PI = 2.0 * M_PI;
+			bool	generating;
+			double	frequency;
 
 			::EnterCriticalSection(&m_guard);
 			generating = m_generating;
@@ -36,22 +38,22 @@ namespace SoundSynthesis {
 
 			if (generating)
 			{
-				double freqToRate = frequency / m_samplingRate;
-				double M_2PI = 2.0 * M_PI;
-				double samplePhase = M_2PI * freqToRate;
-				double t;
+				double	freqToRate = frequency / m_samplingRate;
+				double	samplePhase = M_2PI * freqToRate;
+				double	t;
+				float	s;
 
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
-					// sin(sample# / m_samplingRate * 2 Pi * frequency)
-					t = m_initialPhase + sample * samplePhase;
-					float fSample = static_cast<float>(sin(t));
+					// sin(offset + sample# / m_samplingRate * 2 Pi * frequency)
+					t = m_phaseOffset + sample * samplePhase;
+					s = ProduceSample(t);
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
-						*(samples++) = fSample;
+						*(samples++) = s;
 				}
 
-				m_initialPhase = remainder(t, M_2PI);
+				m_phaseOffset = remainder(t, M_2PI);
 			}
 			else
 			{
@@ -64,6 +66,7 @@ namespace SoundSynthesis {
 			::EnterCriticalSection(&m_guard);
 			m_generating = true;
 			m_frequency = 220.0 + (880.0 - 220.0) * position;
+			m_phaseOffset = 0.0;
 			::LeaveCriticalSection(&m_guard);
 		}
 
@@ -79,6 +82,11 @@ namespace SoundSynthesis {
 			::EnterCriticalSection(&m_guard);
 			m_generating = false;
 			::LeaveCriticalSection(&m_guard);
+		}
+
+		float Oscillator::ProduceSample(double time) const
+		{
+			return static_cast<float>(::sin(time));
 		}
 	}
 }

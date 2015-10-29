@@ -7,7 +7,7 @@ namespace SoundSynthesis { namespace Helpers
 		CRITICAL_SECTION m_guard;
 		const unsigned int m_samplingRate;
 		const unsigned int m_channelsNumber;
-		double m_initialPhase;
+		double m_phaseOffset;
 		bool m_generating;
 		double m_frequency;
 
@@ -19,5 +19,8 @@ namespace SoundSynthesis { namespace Helpers
 		void Begin(double position, double effect);
 		void Change(double position, double effect);
 		void End();
+
+	private:
+		float ProduceSample(double time) const;
 	};
 }}
