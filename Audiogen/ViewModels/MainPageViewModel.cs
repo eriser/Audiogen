@@ -5,8 +5,9 @@
     using System;
     using System.Windows.Input;
 
-    sealed class MainPageViewModel : ViewModelBase
+    sealed class MainPageViewModel : ViewModelBase, IDisposable
     {
+        private bool _disposedValue;
         private readonly DelegateCommand _start;
         private readonly DelegateCommand _stop;
         private readonly PointerHandler _pointerHandler;
@@ -19,6 +20,7 @@
 
         public MainPageViewModel()
         {
+            _disposedValue = false;
             _start = new DelegateCommand(this.ExecuteStart, this.CanExecuteStart);
             _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
             _pointerHandler = new PointerHandler();
@@ -26,6 +28,18 @@
             _isReady = false;
             _isFailed = false;
             _isRunning = false;
+        }
+
+        ~MainPageViewModel()
+        {
+            // Do not change this code. Put cleanup code in Dispose(bool disposing) above.
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public IDispatcher Dispatcher
@@ -153,6 +167,21 @@
         private bool CanExecuteStop(object parameter)
         {
             return _isRunning;
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                _disposedValue = true;
+
+                if (disposing)
+                {
+                    // TODO: dispose managed state (managed objects).
+                }
+
+                _pointerHandler.Dispose();
+            }
         }
     }
 }

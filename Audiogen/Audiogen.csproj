@@ -120,6 +120,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\IDispatcher.cs" />
     <Compile Include="ViewModels\IPointerHandler.cs" />
+    <Compile Include="ViewModels\IPointerTracker.cs" />
     <Compile Include="ViewModels\MainPageViewModel.cs" />
     <Compile Include="ViewModels\PointerPosition.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />

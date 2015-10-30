@@ -1,6 +1,8 @@
 ﻿namespace Audiogen.Controls
 {
     using Audiogen.ViewModels;
+    using System.Collections.Generic;
+    using System.Diagnostics.Contracts;
     using Windows.UI.Input;
     using Windows.UI.Xaml;
     using Windows.UI.Xaml.Controls;
@@ -18,12 +20,12 @@
                 touchboard.OnPointerHandlerChanged(e);
             }));
 
-        private bool _pointerDown;
-        private uint _pointerId;
+        private readonly IDictionary<uint, IPointerTracker> _pointerTrackers;
+
         public Touchboard()
         {
             this.InitializeComponent();
-            _pointerDown = false;
+            _pointerTrackers = new SortedDictionary<uint, IPointerTracker>();
         }
 
 
@@ -37,16 +39,16 @@
         {
             base.OnPointerPressed(e);
 
-            if (!_pointerDown)
+            PointerPoint point = e.GetCurrentPoint(this);
+
+            IPointerTracker newTracker = this.PointerHandler.TrackPointer(new PointerPosition(
+                                            point.Position.X / this.ActualWidth,
+                                            point.Position.Y / this.ActualHeight));
+
+            if(null != newTracker)
             {
-                PointerPoint point = e.GetCurrentPoint(this);
-
-                _pointerDown = true;
-                _pointerId = e.Pointer.PointerId;
-
-                this.PointerHandler?.Down(new PointerPosition(
-                    point.Position.X / this.ActualWidth,
-                    point.Position.Y / this.ActualHeight));
+                Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
+                _pointerTrackers.Add(e.Pointer.PointerId, newTracker);
             }
         }
 
@@ -54,33 +56,27 @@
         {
             base.OnPointerReleased(e);
 
-            if (IsTrackedPointer(e.Pointer))
-            {
-                _pointerDown = false;
-                this.PointerHandler?.Up();
-            }
+            RemoveTracker(e.Pointer.PointerId);
         }
 
         protected override void OnPointerCanceled(PointerRoutedEventArgs e)
         {
             base.OnPointerCanceled(e);
 
-            if (IsTrackedPointer(e.Pointer))
-            {
-                _pointerDown = false;
-                this.PointerHandler?.Up();
-            }
+            RemoveTracker(e.Pointer.PointerId);
         }
 
         protected override void OnPointerMoved(PointerRoutedEventArgs e)
         {
             base.OnPointerMoved(e);
 
-            if (IsTrackedPointer(e.Pointer))
+            IPointerTracker tracker;
+
+            if(_pointerTrackers.TryGetValue(e.Pointer.PointerId, out tracker))
             {
                 PointerPoint point = e.GetCurrentPoint(this);
 
-                this.PointerHandler?.Move(new PointerPosition(
+                tracker.Move(new PointerPosition(
                     point.Position.X / this.ActualWidth,
                     point.Position.Y / this.ActualHeight));
             }
@@ -90,37 +86,44 @@
         {
             base.OnPointerExited(e);
 
-            if (IsTrackedPointer(e.Pointer))
-            {
-                _pointerDown = false;
-                this.PointerHandler?.Up();
-            }
+            RemoveTracker(e.Pointer.PointerId);
         }
 
         protected override void OnPointerEntered(PointerRoutedEventArgs e)
         {
             base.OnPointerEntered(e);
 
-            if(!_pointerDown && e.Pointer.IsInContact)
+            IPointerTracker tracker;
+
+            if (!_pointerTrackers.TryGetValue(e.Pointer.PointerId, out tracker) && e.Pointer.IsInContact)
             {
                 PointerPoint point = e.GetCurrentPoint(this);
 
-                _pointerDown = true;
-                _pointerId = e.Pointer.PointerId;
+                tracker = this.PointerHandler.TrackPointer(new PointerPosition(
+                                    point.Position.X / this.ActualWidth,
+                                    point.Position.Y / this.ActualHeight));
 
-                this.PointerHandler?.Down(new PointerPosition(
-                    point.Position.X / this.ActualWidth,
-                    point.Position.Y / this.ActualHeight));
+                if (null != tracker)
+                {
+                    Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
+                    _pointerTrackers.Add(e.Pointer.PointerId, tracker);
+                }
+            }
+        }
+
+        private void RemoveTracker(uint pointerId)
+        {
+            IPointerTracker tracker;
+
+            if (_pointerTrackers.TryGetValue(pointerId, out tracker))
+            {
+                _pointerTrackers.Remove(pointerId);
+                tracker.Dispose();
             }
         }
 
         private void OnPointerHandlerChanged(DependencyPropertyChangedEventArgs e)
         {
-        }
-
-        private bool IsTrackedPointer(Pointer pointer)
-        {
-            return _pointerDown && pointer.PointerId == _pointerId;
         }
     }
 }

@@ -8,8 +8,6 @@
     /// </summary>
     public interface IPointerHandler
     {
-        void Down(PointerPosition position);
-        void Move(PointerPosition position);
-        void Up();
+        IPointerTracker TrackPointer(PointerPosition position);
     }
 }
