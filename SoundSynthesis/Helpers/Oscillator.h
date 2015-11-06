@@ -2,6 +2,8 @@
 
 namespace SoundSynthesis { namespace Helpers
 {
+	const double M_2PI = 2.0 * M_PI;
+
 	class Oscillator
 	{
 		CRITICAL_SECTION m_guard;
@@ -11,16 +13,18 @@ namespace SoundSynthesis { namespace Helpers
 		bool m_generating;
 		double m_frequency;
 
-	public:
+	protected:
 		Oscillator(unsigned int samplingRate, unsigned int channelsNumber);
-		~Oscillator();
+
+	public:
+		virtual ~Oscillator();
 
 		void GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity);
 		void Begin(double position, double effect);
 		void Change(double position, double effect);
 		void End();
 
-	private:
-		float ProduceSample(double time) const;
+	protected:
+		virtual float ProduceSample(double time) const = 0;
 	};
 }}

@@ -208,6 +208,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Helpers\Oscillator.h" />
+    <ClInclude Include="Helpers\SawtoothOscillator.h" />
+    <ClInclude Include="Helpers\SineWaveOscillator.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Runtime\WaveSource.h" />
   </ItemGroup>

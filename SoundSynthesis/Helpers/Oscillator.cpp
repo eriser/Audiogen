@@ -21,7 +21,6 @@ namespace SoundSynthesis {
 
 		void Oscillator::GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity)
 		{
-			const double M_2PI = 2.0 * M_PI;
 			bool	generating;
 			double	frequency;
 
@@ -39,21 +38,20 @@ namespace SoundSynthesis {
 			if (generating)
 			{
 				double	freqToRate = frequency / m_samplingRate;
-				double	samplePhase = M_2PI * freqToRate;
+				double	samplePhase = M_2_PI * freqToRate;
 				double	t;
 				float	s;
 
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
-					// sin(offset + sample# / m_samplingRate * 2 Pi * frequency)
 					t = m_phaseOffset + sample * samplePhase;
-					s = ProduceSample(t);
+					s = 0.85f * ProduceSample(t);
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
 						*(samples++) = s;
 				}
 
-				m_phaseOffset = remainder(t, M_2PI);
+				m_phaseOffset = ::remainder(t, M_2PI);
 			}
 			else
 			{
@@ -82,11 +80,6 @@ namespace SoundSynthesis {
 			::EnterCriticalSection(&m_guard);
 			m_generating = false;
 			::LeaveCriticalSection(&m_guard);
-		}
-
-		float Oscillator::ProduceSample(double time) const
-		{
-			return static_cast<float>(::sin(time));
 		}
 	}
 }
