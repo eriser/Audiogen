@@ -8,8 +8,8 @@ namespace SoundSynthesis {
 		class StringOscillator : public Oscillator
 		{
 		public:
-			StringOscillator(unsigned int samplingRate, unsigned int channelsNumber)
-				: Oscillator(samplingRate, channelsNumber)
+			StringOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
+			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 

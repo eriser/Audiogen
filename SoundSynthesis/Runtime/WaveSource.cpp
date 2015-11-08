@@ -5,7 +5,7 @@ using namespace SoundSynthesis::Runtime;
 using namespace Platform;
 
 WaveSource::WaveSource(unsigned int samplingRate, unsigned int channelsNumber)
-:	m_oscillator( samplingRate, channelsNumber )
+:	m_oscillator( 220, 3, samplingRate, channelsNumber )
 {
 }
 

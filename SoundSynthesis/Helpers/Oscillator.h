@@ -7,6 +7,8 @@ namespace SoundSynthesis { namespace Helpers
 	class Oscillator
 	{
 		CRITICAL_SECTION m_guard;
+		const double m_baseFrequency;
+		const double m_octaveRange;
 		const unsigned int m_samplingRate;
 		const unsigned int m_channelsNumber;
 		double m_phaseOffset;
@@ -14,7 +16,7 @@ namespace SoundSynthesis { namespace Helpers
 		double m_frequency;
 
 	protected:
-		Oscillator(unsigned int samplingRate, unsigned int channelsNumber);
+		Oscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber);
 
 	public:
 		virtual ~Oscillator();

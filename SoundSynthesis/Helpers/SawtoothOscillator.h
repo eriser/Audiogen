@@ -8,8 +8,8 @@ namespace SoundSynthesis {
 		class SawtoothOscillator : public Oscillator
 		{
 		public:
-			SawtoothOscillator(unsigned int samplingRate, unsigned int channelsNumber)
-				: Oscillator(samplingRate, channelsNumber)
+			SawtoothOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
+			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 

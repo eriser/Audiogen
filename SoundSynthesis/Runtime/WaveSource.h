@@ -8,7 +8,7 @@ namespace SoundSynthesis { namespace Runtime
 	public ref class WaveSource sealed
 	{
 	private:
-		Helpers::SawtoothOscillator m_oscillator;
+		Helpers::StringOscillator m_oscillator;
 
 	public:
 		WaveSource(unsigned int samplingRate, unsigned int channelsNumber);

@@ -4,12 +4,13 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		Oscillator::Oscillator(unsigned int samplingRate, unsigned int channelsNumber)
-		:	m_samplingRate(samplingRate),
+		Oscillator::Oscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
+		:	m_baseFrequency(baseFrequency),
+			m_octaveRange(octaveRange),
+			m_samplingRate(samplingRate),
 			m_channelsNumber(channelsNumber),
 			m_phaseOffset(0.0),
-			m_generating(false),
-			m_frequency( 880.0 )
+			m_generating(false)
 		{
 			::InitializeCriticalSectionAndSpinCount(&m_guard, 4000);
 		}
@@ -60,26 +61,19 @@ namespace SoundSynthesis {
 			}
 		}
 
-		const double MIDDLE_FREQUENCY = 440.0;
-		const double OCTAVE_RANGE = 2.0;
-
 		void Oscillator::Begin(double position, double effect)
 		{
-			double lowFrequency = MIDDLE_FREQUENCY * ::pow( 2.0, -OCTAVE_RANGE );
-
 			::EnterCriticalSection(&m_guard);
 			m_generating = true;
-			m_frequency = lowFrequency * ::pow( 2.0, (OCTAVE_RANGE + 1.0) * position );
+			m_frequency = m_baseFrequency * ::pow(2.0, m_octaveRange * position);
 			m_phaseOffset = 0.0;
 			::LeaveCriticalSection(&m_guard);
 		}
 
 		void Oscillator::Change(double position, double effect)
 		{
-			double lowFrequency = MIDDLE_FREQUENCY * ::pow(2.0, -OCTAVE_RANGE);
-
 			::EnterCriticalSection(&m_guard);
-			m_frequency = lowFrequency * ::pow(2.0, (OCTAVE_RANGE + 1.0) * position);
+			m_frequency = m_baseFrequency * ::pow(2.0, m_octaveRange * position);
 			::LeaveCriticalSection(&m_guard);
 		}
 

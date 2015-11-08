@@ -8,8 +8,8 @@ namespace SoundSynthesis {
 		class SineWaveOscillator : public Oscillator
 		{
 		public:
-			SineWaveOscillator(unsigned int samplingRate, unsigned int channelsNumber)
-			:	Oscillator(samplingRate, channelsNumber)
+			SineWaveOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
+			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 
