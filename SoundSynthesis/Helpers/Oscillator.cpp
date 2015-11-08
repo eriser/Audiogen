@@ -37,21 +37,22 @@ namespace SoundSynthesis {
 
 			if (generating)
 			{
-				double	freqToRate = frequency / m_samplingRate;
-				double	samplePhase = M_2_PI * freqToRate;
-				double	t;
+				double	sampleAngle = M_2PI * frequency / m_samplingRate;
+				double	phase = m_phaseOffset;
 				float	s;
 
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
-					t = m_phaseOffset + sample * samplePhase;
-					s = 0.85f * ProduceSample(t);
+					phase += sampleAngle;
+					s = 0.85f * ProduceSample(phase);
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
 						*(samples++) = s;
 				}
 
-				m_phaseOffset = ::remainder(t, M_2PI);
+				m_phaseOffset = ::remainder(phase, M_2PI);
+				if (m_phaseOffset < 0.0)
+					m_phaseOffset += M_2PI;
 			}
 			else
 			{

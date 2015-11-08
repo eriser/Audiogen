@@ -1,13 +1,14 @@
 #pragma once
 #include "..\Helpers\SineWaveOscillator.h"
 #include "..\Helpers\SawtoothOscillator.h"
+#include "..\Helpers\StringOscillator.h"
 
 namespace SoundSynthesis { namespace Runtime
 {
 	public ref class WaveSource sealed
 	{
 	private:
-		Helpers::SineWaveOscillator m_oscillator;
+		Helpers::SawtoothOscillator m_oscillator;
 
 	public:
 		WaveSource(unsigned int samplingRate, unsigned int channelsNumber);

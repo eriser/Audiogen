@@ -35,5 +35,8 @@
     <ClInclude Include="Helpers\SawtoothOscillator.h">
       <Filter>Helpers</Filter>
     </ClInclude>
+    <ClInclude Include="Helpers\StringOscillator.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
