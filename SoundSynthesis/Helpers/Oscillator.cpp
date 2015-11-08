@@ -60,19 +60,26 @@ namespace SoundSynthesis {
 			}
 		}
 
+		const double MIDDLE_FREQUENCY = 440.0;
+		const double OCTAVE_RANGE = 2.0;
+
 		void Oscillator::Begin(double position, double effect)
 		{
+			double lowFrequency = MIDDLE_FREQUENCY * ::pow( 2.0, -OCTAVE_RANGE );
+
 			::EnterCriticalSection(&m_guard);
 			m_generating = true;
-			m_frequency = 220.0 + (880.0 - 220.0) * position;
+			m_frequency = lowFrequency * ::pow( 2.0, (OCTAVE_RANGE + 1.0) * position );
 			m_phaseOffset = 0.0;
 			::LeaveCriticalSection(&m_guard);
 		}
 
 		void Oscillator::Change(double position, double effect)
 		{
+			double lowFrequency = MIDDLE_FREQUENCY * ::pow(2.0, -OCTAVE_RANGE);
+
 			::EnterCriticalSection(&m_guard);
-			m_frequency = 220.0 + (880.0 - 220.0) * position;
+			m_frequency = lowFrequency * ::pow(2.0, (OCTAVE_RANGE + 1.0) * position);
 			::LeaveCriticalSection(&m_guard);
 		}
 
