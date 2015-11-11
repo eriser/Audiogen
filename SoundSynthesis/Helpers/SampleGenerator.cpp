@@ -4,7 +4,7 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		Oscillator::Oscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
+		SampleGenerator::SampleGenerator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
 		:	m_baseFrequency(baseFrequency),
 			m_octaveRange(octaveRange),
 			m_samplingRate(samplingRate),
@@ -15,12 +15,12 @@ namespace SoundSynthesis {
 			::InitializeCriticalSectionAndSpinCount(&m_guard, 4000);
 		}
 
-		Oscillator::~Oscillator()
+		SampleGenerator::~SampleGenerator()
 		{
 			::DeleteCriticalSection(&m_guard);
 		}
 
-		void Oscillator::GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity)
+		void SampleGenerator::GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity)
 		{
 			bool	generating;
 			double	frequency;
@@ -61,7 +61,7 @@ namespace SoundSynthesis {
 			}
 		}
 
-		void Oscillator::Begin(double position, double effect)
+		void SampleGenerator::Begin(double position, double effect)
 		{
 			::EnterCriticalSection(&m_guard);
 			m_generating = true;
@@ -70,21 +70,21 @@ namespace SoundSynthesis {
 			::LeaveCriticalSection(&m_guard);
 		}
 
-		void Oscillator::Change(double position, double effect)
+		void SampleGenerator::Change(double position, double effect)
 		{
 			::EnterCriticalSection(&m_guard);
 			m_frequency = m_baseFrequency * ::pow(2.0, m_octaveRange * position);
 			::LeaveCriticalSection(&m_guard);
 		}
 
-		void Oscillator::End()
+		void SampleGenerator::End()
 		{
 			::EnterCriticalSection(&m_guard);
 			m_generating = false;
 			::LeaveCriticalSection(&m_guard);
 		}
 
-		double Oscillator::NormalizePhase(double phase)
+		double SampleGenerator::NormalizePhase(double phase)
 		{
 			if (phase >= M_2PI || phase < 0.0)
 			{

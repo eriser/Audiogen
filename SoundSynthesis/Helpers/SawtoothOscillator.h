@@ -5,11 +5,11 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		class SawtoothOscillator : public Oscillator
+		class SawtoothOscillator : public SampleGenerator
 		{
 		public:
 			SawtoothOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
-			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
+			:	SampleGenerator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 

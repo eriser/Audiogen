@@ -5,11 +5,11 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		class SineWaveOscillator : public Oscillator
+		class SineWaveOscillator : public SampleGenerator
 		{
 		public:
 			SineWaveOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
-			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
+			:	SampleGenerator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 

@@ -5,11 +5,11 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		class StringOscillator : public Oscillator
+		class StringOscillator : public SampleGenerator
 		{
 		public:
 			StringOscillator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
-			:	Oscillator(baseFrequency, octaveRange, samplingRate, channelsNumber)
+			:	SampleGenerator(baseFrequency, octaveRange, samplingRate, channelsNumber)
 			{
 			}
 
