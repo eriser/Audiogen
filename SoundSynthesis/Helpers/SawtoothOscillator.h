@@ -14,25 +14,21 @@ namespace SoundSynthesis {
 			}
 
 		protected:
-			float ProduceSample(double time) const override
+			float ProduceSample(double phase) const override
 			{
 				double sample;
-				time = ::remainder(time, M_2PI);
 
-				if (time < 0.0)
-					time += M_2PI;
-
-				if (time <= M_PI_2)
+				if (phase <= M_PI_2)
 				{
-					sample = time / M_PI_2;
+					sample = phase / M_PI_2;
 				}
-				else if (time <= M_PI_2 * 3.0)
+				else if (phase <= M_PI_2 * 3.0)
 				{
-					sample = 1.0 - (time - M_PI_2) / M_PI_2;
+					sample = 1.0 - (phase - M_PI_2) / M_PI_2;
 				}
 				else
 				{
-					sample = (time - M_PI_2 * 3.0) / M_PI_2 - 1.0;
+					sample = (phase - M_PI_2 * 3.0) / M_PI_2 - 1.0;
 				}
 
 				return static_cast<float>(sample);

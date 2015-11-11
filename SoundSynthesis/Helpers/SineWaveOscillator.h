@@ -14,9 +14,9 @@ namespace SoundSynthesis {
 			}
 
 		protected:
-			float ProduceSample(double time) const override
+			float ProduceSample(double phase) const override
 			{
-				return static_cast<float>(::sin(time));
+				return static_cast<float>(::sin(phase));
 			}
 		};
 	}

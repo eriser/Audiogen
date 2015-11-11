@@ -27,6 +27,9 @@ namespace SoundSynthesis { namespace Helpers
 		void End();
 
 	protected:
-		virtual float ProduceSample(double time) const = 0;
+		virtual float ProduceSample(double phase) const = 0;
+
+	private:
+		static double NormalizePhase(double phase);
 	};
 }}

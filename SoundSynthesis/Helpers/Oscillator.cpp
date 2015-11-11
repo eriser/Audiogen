@@ -45,7 +45,7 @@ namespace SoundSynthesis {
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
 					phase += sampleAngle;
-					s = 0.85f * ProduceSample(phase);
+					s = 0.85f * ProduceSample(NormalizePhase(phase));
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
 						*(samples++) = s;
@@ -82,6 +82,18 @@ namespace SoundSynthesis {
 			::EnterCriticalSection(&m_guard);
 			m_generating = false;
 			::LeaveCriticalSection(&m_guard);
+		}
+
+		double Oscillator::NormalizePhase(double phase)
+		{
+			if (phase >= M_2PI || phase < 0.0)
+			{
+				phase = ::remainder(phase, M_2PI);
+				if (phase < 0.0)
+					phase += M_2PI;
+			}
+
+			return phase;
 		}
 	}
 }
