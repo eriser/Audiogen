@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Oscillator.h"
+#include "SampleGenerator.h"
 
 namespace SoundSynthesis {
 	namespace Helpers

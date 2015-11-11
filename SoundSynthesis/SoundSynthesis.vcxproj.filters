@@ -17,7 +17,7 @@
     <ClCompile Include="Runtime\WaveSource.cpp">
       <Filter>Runtime</Filter>
     </ClCompile>
-    <ClCompile Include="Helpers\Oscillator.cpp">
+    <ClCompile Include="Helpers\SampleGenerator.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,9 +26,6 @@
     <ClInclude Include="Runtime\WaveSource.h">
       <Filter>Runtime</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\Oscillator.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\SineWaveOscillator.h">
       <Filter>Helpers</Filter>
     </ClInclude>
@@ -36,6 +33,9 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\StringOscillator.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\SampleGenerator.h">
       <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>
