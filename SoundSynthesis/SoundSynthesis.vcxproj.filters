@@ -23,6 +23,15 @@
     <ClCompile Include="Helpers\Oscillators.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\WavePlayer.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\VoiceCallback.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
+    <ClCompile Include="Helpers\XAudioBuffer.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -33,6 +42,15 @@
       <Filter>Helpers</Filter>
     </ClInclude>
     <ClInclude Include="Helpers\Oscillators.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\WavePlayer.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\VoiceCallback.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\XAudioBuffer.h">
       <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>

@@ -34,6 +34,10 @@
 
         void ISynthesizer.SetUp()
         {
+            using (WavePlayer player = WavePlayer.CreateWavePlayer())
+            {
+            }
+
             AudioGraphSettings settings = new AudioGraphSettings(AudioRenderCategory.Media)
             {
                 //QuantumSizeSelectionMode = QuantumSizeSelectionMode.LowestLatency
