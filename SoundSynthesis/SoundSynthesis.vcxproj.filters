@@ -20,22 +20,19 @@
     <ClCompile Include="Helpers\SampleGenerator.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="Helpers\Oscillators.cpp">
+      <Filter>Helpers</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="Runtime\WaveSource.h">
       <Filter>Runtime</Filter>
     </ClInclude>
-    <ClInclude Include="Helpers\SineWaveOscillator.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\SawtoothOscillator.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
-    <ClInclude Include="Helpers\StringOscillator.h">
-      <Filter>Helpers</Filter>
-    </ClInclude>
     <ClInclude Include="Helpers\SampleGenerator.h">
+      <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="Helpers\Oscillators.h">
       <Filter>Helpers</Filter>
     </ClInclude>
   </ItemGroup>

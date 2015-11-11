@@ -4,8 +4,13 @@
 namespace SoundSynthesis {
 	namespace Helpers
 	{
-		SampleGenerator::SampleGenerator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber)
-		:	m_baseFrequency(baseFrequency),
+		SampleGenerator::SampleGenerator(_In_ PFOSCILLATOR oscillator,
+			double baseFrequency,
+			double octaveRange,
+			unsigned int samplingRate,
+			unsigned int channelsNumber)
+		:	m_oscillator(oscillator),
+			m_baseFrequency(baseFrequency),
 			m_octaveRange(octaveRange),
 			m_samplingRate(samplingRate),
 			m_channelsNumber(channelsNumber),
@@ -45,7 +50,7 @@ namespace SoundSynthesis {
 				for (size_t sample = 0; sample < samplesNumber; ++sample)
 				{
 					phase += sampleAngle;
-					s = 0.85f * ProduceSample(NormalizePhase(phase));
+					s = static_cast<float>(0.85 * (*m_oscillator)(NormalizePhase(phase)));
 
 					for (unsigned int c = 0; c < m_channelsNumber; ++c)
 						*(samples++) = s;

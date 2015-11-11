@@ -1,4 +1,5 @@
 #pragma once
+#include "Oscillators.h"
 
 namespace SoundSynthesis { namespace Helpers
 {
@@ -7,6 +8,7 @@ namespace SoundSynthesis { namespace Helpers
 	class SampleGenerator
 	{
 		CRITICAL_SECTION m_guard;
+		const PFOSCILLATOR m_oscillator;
 		const double m_baseFrequency;
 		const double m_octaveRange;
 		const unsigned int m_samplingRate;
@@ -15,19 +17,18 @@ namespace SoundSynthesis { namespace Helpers
 		bool m_generating;
 		double m_frequency;
 
-	protected:
-		SampleGenerator(double baseFrequency, double octaveRange, unsigned int samplingRate, unsigned int channelsNumber);
-
 	public:
+		SampleGenerator(_In_ PFOSCILLATOR oscillator,
+			double baseFrequency,
+			double octaveRange,
+			unsigned int samplingRate,
+			unsigned int channelsNumber);
 		virtual ~SampleGenerator();
 
 		void GenerateSamples(_In_ size_t samplesNumber, _Out_bytecap_c_(capacity) BYTE *buffer, _In_ size_t capacity);
 		void Begin(double position, double effect);
 		void Change(double position, double effect);
 		void End();
-
-	protected:
-		virtual float ProduceSample(double phase) const = 0;
 
 	private:
 		static double NormalizePhase(double phase);
