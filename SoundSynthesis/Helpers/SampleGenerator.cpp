@@ -68,6 +68,8 @@ namespace SoundSynthesis {
 
 		void SampleGenerator::Begin(double position, double effect)
 		{
+			(void)effect;
+
 			::EnterCriticalSection(&m_guard);
 			m_generating = true;
 			m_frequency = m_baseFrequency * ::pow(2.0, m_octaveRange * position);
@@ -77,6 +79,8 @@ namespace SoundSynthesis {
 
 		void SampleGenerator::Change(double position, double effect)
 		{
+			(void)effect;
+
 			::EnterCriticalSection(&m_guard);
 			m_frequency = m_baseFrequency * ::pow(2.0, m_octaveRange * position);
 			::LeaveCriticalSection(&m_guard);

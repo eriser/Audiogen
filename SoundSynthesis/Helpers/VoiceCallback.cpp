@@ -47,6 +47,7 @@ STDMETHODIMP_(void) VoiceCallback::OnStreamEnd()
 
 STDMETHODIMP_(void) VoiceCallback::OnBufferStart(void* pBufferContext)
 {
+	(void)pBufferContext;
 }
 
 STDMETHODIMP_(void) VoiceCallback::OnBufferEnd(void* pBufferContext)
@@ -57,8 +58,11 @@ STDMETHODIMP_(void) VoiceCallback::OnBufferEnd(void* pBufferContext)
 
 STDMETHODIMP_(void) VoiceCallback::OnLoopEnd(void* pBufferContext)
 {
+	(void)pBufferContext;
 }
 
 STDMETHODIMP_(void) VoiceCallback::OnVoiceError(void* pBufferContext, HRESULT Error)
 {
+	(void)pBufferContext;
+	(void)Error;
 }
