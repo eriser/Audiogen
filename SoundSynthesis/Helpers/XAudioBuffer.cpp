@@ -17,6 +17,7 @@ XAudioBuffer::~XAudioBuffer()
 	delete[] m_samples;
 }
 
+_Check_return_
 float *XAudioBuffer::LockBuffer(UINT32 framesNumber, UINT32 channelsNumber)
 {
 	float	*data = nullptr;

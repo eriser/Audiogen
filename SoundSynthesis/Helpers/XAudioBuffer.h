@@ -12,8 +12,10 @@ namespace SoundSynthesis { namespace Helpers
 		XAudioBuffer();
 		~XAudioBuffer();
 
+		_Check_return_
 		const XAUDIO2_BUFFER *GetBuffer() const { return &m_buffer; }
 
+		_Check_return_
 		float *LockBuffer(UINT32 framesNumber, UINT32 channelsNumber);
 	};
 

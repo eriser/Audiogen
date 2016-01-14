@@ -7,6 +7,7 @@ namespace SoundSynthesis { namespace Helpers
 
 	class SampleGenerator
 	{
+		bool m_initialized;
 		CRITICAL_SECTION m_guard;
 		const PFOSCILLATOR m_oscillator;
 		const double m_baseFrequency;

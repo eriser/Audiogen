@@ -23,17 +23,21 @@ void VoiceCallback::SetUp(_In_ const XAUDIO2_VOICE_DETAILS *mastringVoiceDetails
 STDMETHODIMP_(void) VoiceCallback::OnVoiceProcessingPassStart(UINT32 BytesRequired)
 {
 	XAudioBuffer	*buffer = new(std::nothrow) XAudioBuffer();
-	UINT32			framesNumber = BytesRequired / m_waveFormat.nBlockAlign;
-	float			*samples = buffer->LockBuffer(framesNumber, m_waveFormat.nChannels);
 
-	if (!samples)
+	if (buffer)
 	{
-		delete buffer;
-	}
-	else
-	{
-		SecureZeroMemory(samples, framesNumber * m_waveFormat.nBlockAlign);
-		m_sourceVoice->SubmitSourceBuffer(buffer->GetBuffer());
+		UINT32	framesNumber = BytesRequired / m_waveFormat.nBlockAlign;
+		float	*samples = buffer->LockBuffer(framesNumber, m_waveFormat.nChannels);
+
+		if (!samples)
+		{
+			delete buffer;
+		}
+		else
+		{
+			SecureZeroMemory(samples, framesNumber * m_waveFormat.nBlockAlign);
+			m_sourceVoice->SubmitSourceBuffer(buffer->GetBuffer());
+		}
 	}
 }
 
