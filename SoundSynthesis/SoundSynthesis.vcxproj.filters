@@ -11,6 +11,9 @@
     <Filter Include="Helpers">
       <UniqueIdentifier>{d465eda8-5768-450e-9a60-68cefe4ee894}</UniqueIdentifier>
     </Filter>
+    <Filter Include="XAudioSynthesis">
+      <UniqueIdentifier>{58a359b4-7209-44ff-bcf5-131366782a2c}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp" />
@@ -32,6 +35,9 @@
     <ClCompile Include="Helpers\XAudioBuffer.cpp">
       <Filter>Helpers</Filter>
     </ClCompile>
+    <ClCompile Include="XAudioSynthesis\XAudioCompositor.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -52,6 +58,15 @@
     </ClInclude>
     <ClInclude Include="Helpers\XAudioBuffer.h">
       <Filter>Helpers</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\IAudioCompositor.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\IAudioSource.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\XAudioCompositor.h">
+      <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

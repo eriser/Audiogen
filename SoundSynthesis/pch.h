@@ -8,3 +8,4 @@
 #include <ppltasks.h>
 #include <MemoryBuffer.h>
 #include <xaudio2.h>
+#include <intrin.h>

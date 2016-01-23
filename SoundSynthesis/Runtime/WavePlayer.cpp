@@ -45,10 +45,10 @@ bool WavePlayer::Initialize()
 
 	if (SUCCEEDED(::XAudio2Create(m_xaudio.GetAddressOf(), 0, XAUDIO2_DEFAULT_PROCESSOR)))
 	{
-		XAUDIO2_VOICE_DETAILS voiceDetails;
-
 		if (SUCCEEDED(m_xaudio->CreateMasteringVoice(&m_masteringVoice)))
 		{
+			XAUDIO2_VOICE_DETAILS voiceDetails;
+
 			m_masteringVoice->GetVoiceDetails(&voiceDetails);
 			m_voiceCallback.SetUp(&voiceDetails);
 
