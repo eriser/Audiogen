@@ -23,6 +23,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		//
 		// Implementation
 		//
+		_Check_return_
 		bool SetUp() noexcept;
 		void TearDown() noexcept;
 

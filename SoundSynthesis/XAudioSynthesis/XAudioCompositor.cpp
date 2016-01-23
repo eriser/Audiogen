@@ -54,6 +54,7 @@ IAudioSource *XAudioCompositor::GetOscillatingSource(_In_ PFOSCILLATOR oscillato
 	return nullptr;
 }
 
+_Check_return_
 bool XAudioCompositor::SetUp() noexcept
 {
 	bool succeeded = false;
@@ -81,6 +82,14 @@ void XAudioCompositor::TearDown() noexcept
 {
 	if (nullptr != m_xaudio2)
 	{
+		_ASSERTE(nullptr != m_masteringVoice);
+		m_masteringVoice->DestroyVoice();
+		m_masteringVoice = nullptr;
+
 		m_xaudio2->Release();
+		m_xaudio2 = nullptr;
 	}
+
+	_ASSERTE(nullptr == m_masteringVoice);
+	_ASSERTE(nullptr == m_xaudio2);
 }
