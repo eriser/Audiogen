@@ -44,29 +44,34 @@ IAudioSource *XAudioCompositor::GetOscillatingSource(_In_ PFOSCILLATOR oscillato
 _Check_return_
 bool XAudioCompositor::SetUp() noexcept
 {
-	bool succeeded = false;
+	bool succeeded = m_activeVoices.Initialize();
 
-	if (SUCCEEDED(::XAudio2Create(&m_xaudio2, 0, XAUDIO2_DEFAULT_PROCESSOR)))
+	if (succeeded)
 	{
-		if (SUCCEEDED(m_xaudio2->CreateMasteringVoice(&m_masteringVoice)))
+		if (FAILED(::XAudio2Create(&m_xaudio2, 0, XAUDIO2_DEFAULT_PROCESSOR)))
 		{
-			XAUDIO2_VOICE_DETAILS voiceDetails;
-
-			m_masteringVoice->GetVoiceDetails(&voiceDetails);
-
-			m_waveFormat.nSamplesPerSec = voiceDetails.InputSampleRate;
-			m_waveFormat.nChannels = static_cast<WORD>(voiceDetails.InputChannels);
-			m_waveFormat.nBlockAlign = (m_waveFormat.nChannels * m_waveFormat.wBitsPerSample) / 8;
-			m_waveFormat.nAvgBytesPerSec = m_waveFormat.nBlockAlign * m_waveFormat.nSamplesPerSec;
-
-			succeeded = true;
+			succeeded = false;
 		}
-
-		if (!succeeded)
+		else
 		{
-			_ASSERTE(nullptr == m_masteringVoice);
-			m_xaudio2->Release();
-			m_xaudio2 = nullptr;
+			if (FAILED(m_xaudio2->CreateMasteringVoice(&m_masteringVoice)))
+			{
+				_ASSERTE(nullptr == m_masteringVoice);
+				m_xaudio2->Release();
+				m_xaudio2 = nullptr;
+				succeeded = false;
+			}
+			else
+			{
+				XAUDIO2_VOICE_DETAILS voiceDetails;
+
+				m_masteringVoice->GetVoiceDetails(&voiceDetails);
+
+				m_waveFormat.nSamplesPerSec = voiceDetails.InputSampleRate;
+				m_waveFormat.nChannels = static_cast<WORD>(voiceDetails.InputChannels);
+				m_waveFormat.nBlockAlign = (m_waveFormat.nChannels * m_waveFormat.wBitsPerSample) / 8;
+				m_waveFormat.nAvgBytesPerSec = m_waveFormat.nBlockAlign * m_waveFormat.nSamplesPerSec;
+			}
 		}
 	}
 

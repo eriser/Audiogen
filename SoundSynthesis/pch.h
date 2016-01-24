@@ -10,4 +10,6 @@
 #include <xaudio2.h>
 #include <intrin.h>
 
+#include <set>
+
 #define UNUSED(parameter) ((void)parameter)

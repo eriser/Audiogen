@@ -2,6 +2,7 @@
 
 #include "Retainable.h"
 #include "IAudioCompositor.h"
+#include "ActiveVoices.h"
 
 namespace SoundSynthesis { namespace XAudioSynthesis
 {
@@ -30,5 +31,6 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		IXAudio2				*m_xaudio2;
 		IXAudio2MasteringVoice	*m_masteringVoice;
 		WAVEFORMATEX			m_waveFormat;
+		ActiveVoices			m_activeVoices;
 	};
 }}

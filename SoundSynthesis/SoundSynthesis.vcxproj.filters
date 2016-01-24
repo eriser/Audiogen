@@ -47,6 +47,12 @@
     <ClCompile Include="XAudioSynthesis\XAudioFrame.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
+    <ClCompile Include="XAudioSynthesis\ActiveVoices.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\OscillatingActiveVoice.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -93,6 +99,12 @@
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\SampleWriter.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\ActiveVoices.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\OscillatingActiveVoice.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>
