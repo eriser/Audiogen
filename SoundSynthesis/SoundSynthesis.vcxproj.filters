@@ -38,6 +38,15 @@
     <ClCompile Include="XAudioSynthesis\XAudioCompositor.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
+    <ClCompile Include="XAudioSynthesis\XAudioSource.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\ActiveVoice.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\XAudioFrame.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -66,6 +75,24 @@
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\XAudioCompositor.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\IRetainable.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\Retainable.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\XAudioSource.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\ActiveVoice.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\XAudioFrame.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\SampleWriter.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,12 +1,10 @@
 #pragma once
 
+#include "IRetainable.h"
+
 namespace SoundSynthesis { namespace XAudioSynthesis
 {
-	struct IAudioSource
+	struct IAudioSource : public IRetainable
 	{
-		virtual void Stop() noexcept = 0;
-
-	protected:
-		virtual ~IAudioSource() noexcept {}
 	};
 }}

@@ -1,12 +1,17 @@
 #include "pch.h"
 #include "WaveSource.h"
 
+#include "XAudioSynthesis\XAudioFrame.h"
+
 using namespace SoundSynthesis::Runtime;
 using namespace Platform;
 
 WaveSource::WaveSource(unsigned int samplingRate, unsigned int channelsNumber)
 :	m_sampleGenerator( SoundSynthesis::Helpers::LadderOscillator, 220, 3, samplingRate, channelsNumber )
 {
+	__debugbreak();
+	SoundSynthesis::XAudioSynthesis::XAudioFrame *frame = SoundSynthesis::XAudioSynthesis::XAudioFrame::Create(sizeof(float) * 10240);
+	frame->Destroy();
 }
 
 WaveSource::~WaveSource()

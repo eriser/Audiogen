@@ -101,32 +101,32 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <GenerateManifest>false</GenerateManifest>
     <CodeAnalysisRuleSet>C:\Program Files (x86)\Microsoft Visual Studio 14.0\Team Tools\Static Analysis Tools\Rule Sets\NativeRecommendedRules.ruleset</CodeAnalysisRuleSet>
-    <RunCodeAnalysis>true</RunCodeAnalysis>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -138,8 +138,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -156,8 +156,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -174,8 +174,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -192,8 +192,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -210,8 +210,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -228,8 +228,8 @@
       <AdditionalOptions>/bigobj %(AdditionalOptions)</AdditionalOptions>
       <DisableSpecificWarnings>28204</DisableSpecificWarnings>
       <WarningLevel>Level4</WarningLevel>
+      <EnablePREfast>false</EnablePREfast>
       <TreatWarningAsError>true</TreatWarningAsError>
-      <EnablePREfast>true</EnablePREfast>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -244,9 +244,15 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="Runtime\WavePlayer.h" />
     <ClInclude Include="Runtime\WaveSource.h" />
+    <ClInclude Include="XAudioSynthesis\ActiveVoice.h" />
     <ClInclude Include="XAudioSynthesis\IAudioCompositor.h" />
     <ClInclude Include="XAudioSynthesis\IAudioSource.h" />
+    <ClInclude Include="XAudioSynthesis\IRetainable.h" />
+    <ClInclude Include="XAudioSynthesis\Retainable.h" />
+    <ClInclude Include="XAudioSynthesis\SampleWriter.h" />
+    <ClInclude Include="XAudioSynthesis\XAudioFrame.h" />
     <ClInclude Include="XAudioSynthesis\XAudioCompositor.h" />
+    <ClInclude Include="XAudioSynthesis\XAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Helpers\Oscillators.cpp" />
@@ -263,7 +269,10 @@
     </ClCompile>
     <ClCompile Include="Runtime\WavePlayer.cpp" />
     <ClCompile Include="Runtime\WaveSource.cpp" />
+    <ClCompile Include="XAudioSynthesis\ActiveVoice.cpp" />
+    <ClCompile Include="XAudioSynthesis\XAudioFrame.cpp" />
     <ClCompile Include="XAudioSynthesis\XAudioCompositor.cpp" />
+    <ClCompile Include="XAudioSynthesis\XAudioSource.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

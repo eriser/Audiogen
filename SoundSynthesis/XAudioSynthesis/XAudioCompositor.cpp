@@ -19,31 +19,18 @@ IAudioCompositor *XAudioCompositor::Create() noexcept
 }
 
 XAudioCompositor::XAudioCompositor() noexcept
-:	m_refs(1),
-	m_xaudio2(nullptr),
+:	m_xaudio2(nullptr),
 	m_masteringVoice(nullptr)
 {
+	SecureZeroMemory(&m_waveFormat, sizeof(m_waveFormat));
+	m_waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
+	m_waveFormat.wBitsPerSample = sizeof(float) * 8;
 }
 
 XAudioCompositor::~XAudioCompositor() noexcept
 {
-	_ASSERTE(0 == m_refs);
 	_ASSERTE(nullptr == m_xaudio2);
 	_ASSERTE(nullptr == m_masteringVoice);
-}
-
-void XAudioCompositor::Retain() noexcept
-{
-	_InterlockedIncrement(&m_refs);
-}
-
-void XAudioCompositor::Release() noexcept
-{
-	if (0 == _InterlockedDecrement(&m_refs))
-	{
-		TearDown();
-		delete this;
-	}
 }
 
 _Check_return_
@@ -63,7 +50,15 @@ bool XAudioCompositor::SetUp() noexcept
 	{
 		if (SUCCEEDED(m_xaudio2->CreateMasteringVoice(&m_masteringVoice)))
 		{
-			m_masteringVoice->GetVoiceDetails(&m_voiceDetails);
+			XAUDIO2_VOICE_DETAILS voiceDetails;
+
+			m_masteringVoice->GetVoiceDetails(&voiceDetails);
+
+			m_waveFormat.nSamplesPerSec = voiceDetails.InputSampleRate;
+			m_waveFormat.nChannels = static_cast<WORD>(voiceDetails.InputChannels);
+			m_waveFormat.nBlockAlign = (m_waveFormat.nChannels * m_waveFormat.wBitsPerSample) / 8;
+			m_waveFormat.nAvgBytesPerSec = m_waveFormat.nBlockAlign * m_waveFormat.nSamplesPerSec;
+
 			succeeded = true;
 		}
 
@@ -78,7 +73,7 @@ bool XAudioCompositor::SetUp() noexcept
 	return succeeded;
 }
 
-void XAudioCompositor::TearDown() noexcept
+void XAudioCompositor::FinalRelease() noexcept
 {
 	if (nullptr != m_xaudio2)
 	{

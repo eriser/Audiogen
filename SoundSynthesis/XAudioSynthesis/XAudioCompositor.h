@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Retainable.h"
 #include "IAudioCompositor.h"
 
 namespace SoundSynthesis { namespace XAudioSynthesis
 {
-	class XAudioCompositor : IAudioCompositor
+	class XAudioCompositor : Retainable<IAudioCompositor>
 	{
 	public:
 		_Check_return_
@@ -16,8 +17,6 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		//
 		// IAudioCompositor
 		//
-		void Retain() noexcept override;
-		void Release() noexcept override;
 		_Check_return_
 		IAudioSource *GetOscillatingSource(_In_ Helpers::PFOSCILLATOR oscillator) noexcept override;
 		//
@@ -25,12 +24,11 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		//
 		_Check_return_
 		bool SetUp() noexcept;
-		void TearDown() noexcept;
+		void FinalRelease() noexcept override;
 
 	private:
-		volatile LONG			m_refs;
 		IXAudio2				*m_xaudio2;
 		IXAudio2MasteringVoice	*m_masteringVoice;
-		XAUDIO2_VOICE_DETAILS	m_voiceDetails;
+		WAVEFORMATEX			m_waveFormat;
 	};
 }}
