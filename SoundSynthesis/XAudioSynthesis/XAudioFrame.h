@@ -48,6 +48,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 			return SampleWriter(m_data, cap);
 		}
 
+		_Check_return_
+		bool Submit(_In_ IXAudio2SourceVoice *sourceVoice) noexcept;
+
 		void Destroy() noexcept
 		{
 			//

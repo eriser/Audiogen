@@ -8,7 +8,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 	class OscillatingActiveVoice : public ActiveVoice
 	{
 	public:
-		OscillatingActiveVoice(_In_ const WAVEFORMATEX *waveFormat, _In_ Helpers::PFOSCILLATOR oscillator) noexcept;
+		OscillatingActiveVoice(_In_ ActiveVoices *container, _In_ const WAVEFORMATEX *waveFormat, _In_ Helpers::PFOSCILLATOR oscillator) noexcept;
 
 	private:
 		~OscillatingActiveVoice() noexcept;

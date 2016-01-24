@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "ActiveVoice.h"
+#include "ActiveVoices.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
@@ -16,9 +17,22 @@ void ActiveVoice::Release() noexcept
 	}
 }
 
-ActiveVoice::ActiveVoice(_In_ const WAVEFORMATEX *waveFormat) noexcept
+_Check_return_
+bool ActiveVoice::CreateSourceVoice(_In_ IXAudio2 *audio) noexcept
+{
+	_ASSERTE(nullptr == m_sourceVoice);
+	//
+	// Create a source voice with the active voice as the callback and do not connect the created voice to the mastering voice.
+	//
+	XAUDIO2_VOICE_SENDS vs = { 0 };
+	return SUCCEEDED(audio->CreateSourceVoice(&m_sourceVoice, m_waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this, &vs));
+}
+
+ActiveVoice::ActiveVoice(_In_ ActiveVoices *container, _In_ const WAVEFORMATEX *waveFormat) noexcept
 :	m_refs(1),
-	m_waveFormat(waveFormat)
+	m_container(container),
+	m_waveFormat(waveFormat),
+	m_sourceVoice(nullptr)
 {
 	_ASSERTE(nullptr != m_waveFormat);
 }
@@ -32,9 +46,9 @@ STDMETHODIMP_(void) ActiveVoice::OnVoiceProcessingPassStart(UINT32 BytesRequired
 {
 	XAudioFrame *frame = MakeAudioFrame(BytesRequired, m_waveFormat);
 
-	if (frame)
+	if (frame && !frame->Submit(m_sourceVoice))
 	{
-		//frame
+		frame->Destroy();
 	}
 }
 
@@ -50,14 +64,9 @@ STDMETHODIMP_(void) ActiveVoice::OnStreamEnd() noexcept
 	//
 	m_sourceVoice->Stop();
 	//
-	// Disconnect the voice from all outputs.
+	// TODO: mark the voice as stopped and queue a cleanup request to the voices collection.
 	//
-	m_sourceVoice->SetOutputVoices(&vs);
-	//
-	// Destroy the voice.
-	//
-	m_sourceVoice->DestroyVoice();
-	m_sourceVoice = nullptr;
+	m_container->CleanupAsync();
 }
 
 STDMETHODIMP_(void) ActiveVoice::OnBufferStart(void *pBufferContext) noexcept

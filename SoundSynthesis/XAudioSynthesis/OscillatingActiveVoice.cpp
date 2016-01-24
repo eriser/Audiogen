@@ -4,8 +4,8 @@
 using namespace SoundSynthesis::XAudioSynthesis;
 using namespace SoundSynthesis::Helpers;
 
-OscillatingActiveVoice::OscillatingActiveVoice(_In_ const WAVEFORMATEX *waveFormat, _In_ PFOSCILLATOR oscillator) noexcept
-:	ActiveVoice(waveFormat),
+OscillatingActiveVoice::OscillatingActiveVoice(_In_ ActiveVoices *container, _In_ const WAVEFORMATEX *waveFormat, _In_ PFOSCILLATOR oscillator) noexcept
+:	ActiveVoice(container, waveFormat),
 	m_oscillator(oscillator)
 {
 	_ASSERTE(nullptr != m_oscillator);

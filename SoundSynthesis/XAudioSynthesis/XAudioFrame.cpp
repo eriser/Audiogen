@@ -29,3 +29,9 @@ XAudioFrame *XAudioFrame::Create(UINT32 bytesLength) noexcept
 {
 	return new(bytesLength) XAudioFrame(bytesLength);
 }
+
+_Check_return_
+bool XAudioFrame::Submit(_In_ IXAudio2SourceVoice *sourceVoice) noexcept
+{
+	return SUCCEEDED(sourceVoice->SubmitSourceBuffer(&m_buffer));
+}

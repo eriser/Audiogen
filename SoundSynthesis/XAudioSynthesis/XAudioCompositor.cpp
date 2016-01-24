@@ -80,6 +80,8 @@ bool XAudioCompositor::SetUp() noexcept
 
 void XAudioCompositor::FinalRelease() noexcept
 {
+	m_activeVoices.TearDown();
+
 	if (nullptr != m_xaudio2)
 	{
 		_ASSERTE(nullptr != m_masteringVoice);
