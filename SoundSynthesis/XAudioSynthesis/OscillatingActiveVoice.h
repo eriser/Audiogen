@@ -18,6 +18,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		XAudioFrame *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept override;
 
 	private:
+		float GetNextSample() noexcept;
+
+	private:
 		const Helpers::PFOSCILLATOR m_oscillator;
 	};
 }}

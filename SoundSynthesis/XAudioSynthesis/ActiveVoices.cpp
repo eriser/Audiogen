@@ -64,7 +64,10 @@ void ActiveVoices::TearDown() noexcept
 }
 
 _Check_return_
-ActiveVoice *ActiveVoices::CreateOscillatingVoice(_In_ IXAudio2 *audio, _In_ const WAVEFORMATEX *waveFormat, _In_ PFOSCILLATOR oscillator) noexcept
+ActiveVoice *ActiveVoices::CreateOscillatingVoice(_In_ IXAudio2 *audio,
+	_In_ IXAudio2Voice *receiver,
+	_In_ const WAVEFORMATEX *waveFormat,
+	_In_ PFOSCILLATOR oscillator) noexcept
 {
 	_ASSERTE(NULL != m_cleanupThread);
 
@@ -72,7 +75,7 @@ ActiveVoice *ActiveVoices::CreateOscillatingVoice(_In_ IXAudio2 *audio, _In_ con
 
 	if (nullptr != voice)
 	{
-		if (!voice->CreateSourceVoice(audio) || !AddVoice(voice))
+		if (!voice->CreateSourceVoice(audio, receiver) || !AddVoice(voice))
 		{
 			voice->Release();
 			voice = nullptr;
@@ -140,7 +143,23 @@ void ActiveVoices::CleanupBody() noexcept
 {
 	::EnterCriticalSection(&m_monitor);
 	//
-	// TODO: remove all deactivated active voices from the collection
+	// Remove all deactivated active voices from the collection
 	//
+	for (auto itr = m_voices.begin(); itr != m_voices.end(); )
+	{
+		if ((*itr)->IsActive())
+		{
+			++itr;
+		}
+		else
+		{
+			ActiveVoice *voice = *itr;
+
+			itr = m_voices.erase(itr);
+			voice->Recycle();
+			voice->Release();
+		}
+	}
+
 	::LeaveCriticalSection(&m_monitor);
 }

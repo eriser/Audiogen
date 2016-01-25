@@ -242,6 +242,7 @@
     <ClInclude Include="Helpers\VoiceCallback.h" />
     <ClInclude Include="Helpers\XAudioBuffer.h" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="Runtime\Compositor.h" />
     <ClInclude Include="Runtime\WavePlayer.h" />
     <ClInclude Include="Runtime\WaveSource.h" />
     <ClInclude Include="XAudioSynthesis\ActiveVoice.h" />
@@ -269,6 +270,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Runtime\Compositor.cpp" />
     <ClCompile Include="Runtime\WavePlayer.cpp" />
     <ClCompile Include="Runtime\WaveSource.cpp" />
     <ClCompile Include="XAudioSynthesis\ActiveVoice.cpp" />

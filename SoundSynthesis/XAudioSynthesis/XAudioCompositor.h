@@ -20,6 +20,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		//
 		_Check_return_
 		IAudioSource *GetOscillatingSource(_In_ Helpers::PFOSCILLATOR oscillator) noexcept override;
+		_Check_return_
+		bool Start() noexcept override;
+		void Stop() noexcept override;
 		//
 		// Implementation
 		//

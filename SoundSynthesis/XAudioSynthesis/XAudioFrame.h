@@ -13,7 +13,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		//
 		// Make the constructor private so only the factory method can create instances of the class.
 		//
-		XAudioFrame(UINT32 audioBytes) noexcept;
+		XAudioFrame(UINT32 flags, UINT32 audioBytes) noexcept;
 		//
 		// Make the destructor private so no one outside of the class can delete it.
 		//
@@ -27,7 +27,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 	public:
 
 		_Check_return_
-		static XAudioFrame *Create(UINT32 bytesLength) noexcept;
+		static XAudioFrame *Create(UINT32 flags, UINT32 bytesLength) noexcept;
 
 		_Check_return_
 		static XAudioFrame *FromContext(_In_ void *context) noexcept

@@ -53,6 +53,9 @@
     <ClCompile Include="XAudioSynthesis\OscillatingActiveVoice.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
+    <ClCompile Include="Runtime\Compositor.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -106,6 +109,9 @@
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\OscillatingActiveVoice.h">
       <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="Runtime\Compositor.h">
+      <Filter>Runtime</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

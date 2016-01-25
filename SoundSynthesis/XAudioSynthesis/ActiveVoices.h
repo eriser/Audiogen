@@ -17,7 +17,10 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		bool Initialize() noexcept;
 		void TearDown() noexcept;
 		_Check_return_
-		ActiveVoice *CreateOscillatingVoice(_In_ IXAudio2 *audio, _In_ const WAVEFORMATEX *waveFormat, _In_ Helpers::PFOSCILLATOR oscillator) noexcept;
+		ActiveVoice *CreateOscillatingVoice(_In_ IXAudio2 *audio,
+			_In_ IXAudio2Voice *receiver,
+			_In_ const WAVEFORMATEX *waveFormat,
+			_In_ Helpers::PFOSCILLATOR oscillator) noexcept;
 
 		void CleanupAsync() noexcept;
 

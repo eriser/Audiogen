@@ -3,12 +3,13 @@
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
-XAudioFrame::XAudioFrame(UINT32 audioBytes) noexcept
+XAudioFrame::XAudioFrame(UINT32 flags, UINT32 audioBytes) noexcept
 {
 	//
 	// Operator new allocates the object with extra data and zeroes out the allocated memory;
 	// it is safe to simply assign the fields of the buffer structure.
 	//
+	m_buffer.Flags = flags;
 	m_buffer.AudioBytes = audioBytes;
 	m_buffer.pContext = this;
 	m_buffer.pAudioData = reinterpret_cast<const BYTE *>(m_data);
@@ -25,9 +26,9 @@ void XAudioFrame::operator delete(void *instance) noexcept
 }
 
 _Check_return_
-XAudioFrame *XAudioFrame::Create(UINT32 bytesLength) noexcept
+XAudioFrame *XAudioFrame::Create(UINT32 flags, UINT32 bytesLength) noexcept
 {
-	return new(bytesLength) XAudioFrame(bytesLength);
+	return new(bytesLength) XAudioFrame(flags, bytesLength);
 }
 
 _Check_return_

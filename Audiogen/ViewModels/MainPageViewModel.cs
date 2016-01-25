@@ -10,24 +10,29 @@
         private bool _disposedValue;
         private readonly DelegateCommand _start;
         private readonly DelegateCommand _stop;
+        private readonly DelegateCommand _startCompositor;
         private readonly PointerHandler _pointerHandler;
         private IDispatcher _dispatcher;
         private ISynthesizer _synthesizer;
+        private SoundSynthesis.Runtime.Compositor _compositor;
         private bool _isInitializing;
         private bool _isReady;
         private bool _isFailed;
         private bool _isRunning;
+        private bool _isCompositorRunning;
 
         public MainPageViewModel()
         {
             _disposedValue = false;
             _start = new DelegateCommand(this.ExecuteStart, this.CanExecuteStart);
             _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
+            _startCompositor = new DelegateCommand(this.ExecuteStartCompositor, this.CanExecuteStartCompositor);
             _pointerHandler = new PointerHandler();
             _isInitializing = true;
             _isReady = false;
             _isFailed = false;
             _isRunning = false;
+            _isCompositorRunning = false;
         }
 
         ~MainPageViewModel()
@@ -121,6 +126,11 @@
             get { return _stop; }
         }
 
+        public ICommand StartCompositor
+        {
+            get { return _startCompositor; }
+        }
+
         private void SetUpSynthesizerIfFullyComposed()
         {
             if(null != _synthesizer && null != _dispatcher)
@@ -167,6 +177,21 @@
         private bool CanExecuteStop(object parameter)
         {
             return _isRunning;
+        }
+
+        private void ExecuteStartCompositor(object parameter)
+        {
+            _compositor = SoundSynthesis.Runtime.Compositor.CreateCompositor();
+            if(_compositor.Start())
+            {
+                _isCompositorRunning = true;
+                _startCompositor.EmitCanExecuteChanged();
+            }
+        }
+
+        private bool CanExecuteStartCompositor(object parameter)
+        {
+            return !_isCompositorRunning;
         }
 
         private void Dispose(bool disposing)

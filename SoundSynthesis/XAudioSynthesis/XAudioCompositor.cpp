@@ -1,5 +1,6 @@
 #include "pch.h"
 #include "XAudioCompositor.h"
+#include "XAudioSource.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 using namespace SoundSynthesis::Helpers;
@@ -36,9 +37,28 @@ XAudioCompositor::~XAudioCompositor() noexcept
 _Check_return_
 IAudioSource *XAudioCompositor::GetOscillatingSource(_In_ PFOSCILLATOR oscillator) noexcept
 {
-	((void)oscillator);
+	IAudioSource *source = nullptr;
 
-	return nullptr;
+	ActiveVoice *voice = m_activeVoices.CreateOscillatingVoice(m_xaudio2, m_masteringVoice, &m_waveFormat, oscillator);
+
+	if (voice)
+	{
+		source = new(std::nothrow) XAudioSource(this, voice);
+		voice->Start();
+		voice->Release();
+	}
+
+	return source;
+}
+
+_Check_return_
+bool XAudioCompositor::Start() noexcept
+{
+	return SUCCEEDED(m_xaudio2->StartEngine());
+}
+
+void XAudioCompositor::Stop() noexcept
+{
 }
 
 _Check_return_
