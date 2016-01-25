@@ -63,6 +63,20 @@ void ActiveVoices::TearDown() noexcept
 	}
 }
 
+void ActiveVoices::FinalCleanup() noexcept
+{
+	//
+	// Destroy all remaining voices in the active voices set and all recycle containers.
+	//
+	std::for_each(m_voices.begin(), m_voices.end(),
+		[](ActiveVoice *voice)
+		{
+			voice->Recycle();
+			voice->Release();
+		});
+	m_voices.clear();
+}
+
 _Check_return_
 ActiveVoice *ActiveVoices::CreateOscillatingVoice(_In_ IXAudio2 *audio,
 	_In_ IXAudio2Voice *receiver,

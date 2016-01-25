@@ -17,8 +17,11 @@ void ActiveVoice::Release() noexcept
 	}
 }
 
-void ActiveVoice::Start() noexcept
+void ActiveVoice::Start(float x, float y) noexcept
 {
+	UNUSED(x);
+	UNUSED(y);
+
 	XAUDIO2_VOICE_SENDS		vs = { 0 };
 	XAUDIO2_SEND_DESCRIPTOR	output[1] = { 0 };
 
@@ -28,6 +31,21 @@ void ActiveVoice::Start() noexcept
 
 	m_sourceVoice->SetOutputVoices(&vs);
 	m_sourceVoice->Start();
+}
+
+void ActiveVoice::Move(float x, float y) noexcept
+{
+	UNUSED(x);
+	UNUSED(y);
+}
+
+void ActiveVoice::Stop() noexcept
+{
+	if (1 == _InterlockedCompareExchange16(&m_isActive, 0, 1))
+	{
+		m_sourceVoice->Stop();
+		m_container->CleanupAsync();
+	}
 }
 
 void ActiveVoice::Recycle() noexcept
@@ -109,9 +127,7 @@ STDMETHODIMP_(void) ActiveVoice::OnVoiceProcessingPassStart(UINT32 BytesRequired
 
 	if (!submitted)
 	{
-		m_sourceVoice->Stop();
-		SetInactive();
-		m_container->CleanupAsync();
+		Stop();
 	}
 }
 
@@ -121,16 +137,7 @@ STDMETHODIMP_(void) ActiveVoice::OnVoiceProcessingPassEnd() noexcept
 
 STDMETHODIMP_(void) ActiveVoice::OnStreamEnd() noexcept
 {
-	XAUDIO2_VOICE_SENDS vs = { 0 };
-	//
-	// Stop the voice, there will be no more data.
-	//
-	m_sourceVoice->Stop();
-	//
-	// Mark the voice as stopped and queue a cleanup request to the voices collection.
-	//
-	SetInactive();
-	m_container->CleanupAsync();
+	Stop();
 }
 
 STDMETHODIMP_(void) ActiveVoice::OnBufferStart(void *pBufferContext) noexcept

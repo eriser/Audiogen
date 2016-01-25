@@ -39,16 +39,19 @@
         {
             base.OnPointerPressed(e);
 
-            PointerPoint point = e.GetCurrentPoint(this);
-
-            IPointerTracker newTracker = this.PointerHandler.TrackPointer(new PointerPosition(
-                                            point.Position.X / this.ActualWidth,
-                                            point.Position.Y / this.ActualHeight));
-
-            if(null != newTracker)
+            if(null != this.PointerHandler)
             {
-                Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
-                _pointerTrackers.Add(e.Pointer.PointerId, newTracker);
+                PointerPoint point = e.GetCurrentPoint(this);
+
+                IPointerTracker newTracker = this.PointerHandler.TrackPointer(new PointerPosition(
+                                                point.Position.X / this.ActualWidth,
+                                                point.Position.Y / this.ActualHeight));
+
+                if (null != newTracker)
+                {
+                    Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
+                    _pointerTrackers.Add(e.Pointer.PointerId, newTracker);
+                }
             }
         }
 
@@ -93,20 +96,23 @@
         {
             base.OnPointerEntered(e);
 
-            IPointerTracker tracker;
-
-            if (!_pointerTrackers.TryGetValue(e.Pointer.PointerId, out tracker) && e.Pointer.IsInContact)
+            if(null != this.PointerHandler)
             {
-                PointerPoint point = e.GetCurrentPoint(this);
+                IPointerTracker tracker;
 
-                tracker = this.PointerHandler.TrackPointer(new PointerPosition(
-                                    point.Position.X / this.ActualWidth,
-                                    point.Position.Y / this.ActualHeight));
-
-                if (null != tracker)
+                if (!_pointerTrackers.TryGetValue(e.Pointer.PointerId, out tracker) && e.Pointer.IsInContact)
                 {
-                    Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
-                    _pointerTrackers.Add(e.Pointer.PointerId, tracker);
+                    PointerPoint point = e.GetCurrentPoint(this);
+
+                    tracker = this.PointerHandler.TrackPointer(new PointerPosition(
+                                        point.Position.X / this.ActualWidth,
+                                        point.Position.Y / this.ActualHeight));
+
+                    if (null != tracker)
+                    {
+                        Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
+                        _pointerTrackers.Add(e.Pointer.PointerId, tracker);
+                    }
                 }
             }
         }

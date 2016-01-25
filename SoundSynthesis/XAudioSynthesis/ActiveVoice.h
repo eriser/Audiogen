@@ -17,12 +17,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 			return 0 != m_isActive;
 		}
 
-		void Start() noexcept;
-
-		void Stop() noexcept
-		{
-			SetInactive();
-		}
+		void Start(float x, float y) noexcept;
+		void Move(float x, float y) noexcept;
+		void Stop() noexcept;
 
 		virtual void Recycle() noexcept;
 
@@ -33,16 +30,6 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 	protected:
 		ActiveVoice(_In_ ActiveVoices *container, _In_ const WAVEFORMATEX *waveFormat) noexcept;
 		virtual ~ActiveVoice() noexcept;
-
-		void SetActive() noexcept
-		{
-			_InterlockedExchange16(&m_isActive, 1);
-		}
-
-		void SetInactive() noexcept
-		{
-			_InterlockedExchange16(&m_isActive, 0);
-		}
 
 		virtual XAudioFrame *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept = 0;
 		XAudioFrame *MakeEndOfStreamFrame(_In_ const WAVEFORMATEX *waveFormat) noexcept;

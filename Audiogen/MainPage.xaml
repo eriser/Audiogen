@@ -31,6 +31,8 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
 
         <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch" VerticalAlignment="Center"
@@ -47,11 +49,22 @@
                     Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}">
             <Button Margin="5,0" Command="{Binding Start}">Start</Button>
             <Button Margin="5,0" Command="{Binding Stop}">Stop</Button>
-            <Button Margin="5,0" Command="{Binding StartCompositor}">Start Compositor</Button>
         </StackPanel>
 
         <TextBlock Grid.Row="2"
                    Visibility="{Binding IsFailed, Converter={StaticResource BooleanToVisibilityConverter}}"
                    Text="The synthesizer has failed to initialize"/>
+
+        <controls:Touchboard Grid.Row="3"
+                             Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}"
+                             PointerHandler="{Binding CompositorPointerHandler}"/>
+
+        <StackPanel Grid.Row="5" Orientation="Horizontal" HorizontalAlignment="Center"
+                    Visibility="{Binding IsReady, Converter={StaticResource BooleanToVisibilityConverter}}">
+            <Button Margin="5,0" Command="{Binding StartCompositor}">
+                <TextBlock Text="Start Compositor"></TextBlock>
+            </Button>
+            <Button Margin="5,0" Command="{Binding StopCompositor}">Stop Compositor</Button>
+        </StackPanel>
     </Grid>
 </Page>

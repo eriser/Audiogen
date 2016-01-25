@@ -26,3 +26,18 @@ void XAudioSource::FinalRelease() noexcept
 	m_voice->Release();
 	m_voice = nullptr;
 }
+
+void XAudioSource::Start(float x, float y) noexcept
+{
+	m_voice->Start(x, y);
+}
+
+void XAudioSource::Move(float x, float y) noexcept
+{
+	m_voice->Move(x, y);
+}
+
+void XAudioSource::Stop() noexcept
+{
+	m_voice->Stop();
+}

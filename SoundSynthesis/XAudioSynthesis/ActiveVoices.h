@@ -16,6 +16,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 
 		bool Initialize() noexcept;
 		void TearDown() noexcept;
+		void FinalCleanup() noexcept;
 		_Check_return_
 		ActiveVoice *CreateOscillatingVoice(_In_ IXAudio2 *audio,
 			_In_ IXAudio2Voice *receiver,

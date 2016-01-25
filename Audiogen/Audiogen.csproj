@@ -109,6 +109,7 @@
       <DependentUpon>Touchboard.xaml</DependentUpon>
     </Compile>
     <Compile Include="Helpers\BoleanToVisibilityConverter.cs" />
+    <Compile Include="Helpers\CompositorPointerHandler.cs" />
     <Compile Include="Helpers\DelegateCommand.cs" />
     <Compile Include="Helpers\Dispatcher.cs" />
     <Compile Include="Helpers\PointerHandler.cs" />

@@ -144,6 +144,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -180,6 +181,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM'">
@@ -216,6 +218,7 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <FullProgramDatabaseFile>true</FullProgramDatabaseFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -237,6 +240,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CompositorVoice.h" />
     <ClInclude Include="Helpers\Oscillators.h" />
     <ClInclude Include="Helpers\SampleGenerator.h" />
     <ClInclude Include="Helpers\VoiceCallback.h" />
@@ -258,6 +262,7 @@
     <ClInclude Include="XAudioSynthesis\XAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CompositorVoice.cpp" />
     <ClCompile Include="Helpers\Oscillators.cpp" />
     <ClCompile Include="Helpers\SampleGenerator.cpp" />
     <ClCompile Include="Helpers\VoiceCallback.cpp" />

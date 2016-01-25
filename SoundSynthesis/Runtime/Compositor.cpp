@@ -25,22 +25,26 @@ Compositor ^Compositor::CreateCompositor()
 
 bool Compositor::Start()
 {
-	bool started = m_compositor->Start();
-
-	if (started)
-	{
-		IAudioSource *source1 = m_compositor->GetOscillatingSource(SoundSynthesis::Helpers::LadderOscillator);
-		m_compositor->GetOscillatingSource(SoundSynthesis::Helpers::LadderOscillator);
-		m_compositor->GetOscillatingSource(SoundSynthesis::Helpers::LadderOscillator);
-		source1->Release();
-	}
-
-	return started;
+	return m_compositor->Start();
 }
 
 void Compositor::Stop()
 {
+	m_compositor->Stop();
+}
 
+CompositorVoice ^Compositor::GetVoice()
+{
+	CompositorVoice ^cv = nullptr;
+	IAudioSource *voice = m_compositor->GetOscillatingSource(SoundSynthesis::Helpers::LadderOscillator);
+
+	if (nullptr != voice)
+	{
+		cv = CompositorVoice::Create(voice);
+		voice->Release();
+	}
+
+	return cv;
 }
 
 Compositor::Compositor()

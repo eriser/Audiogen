@@ -56,6 +56,9 @@
     <ClCompile Include="Runtime\Compositor.cpp">
       <Filter>Runtime</Filter>
     </ClCompile>
+    <ClCompile Include="CompositorVoice.cpp">
+      <Filter>Runtime</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -111,6 +114,9 @@
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="Runtime\Compositor.h">
+      <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="CompositorVoice.h">
       <Filter>Runtime</Filter>
     </ClInclude>
   </ItemGroup>

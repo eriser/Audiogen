@@ -18,6 +18,11 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		void FinalRelease() noexcept override;
 
 	private:
+		void Start(float x, float y) noexcept override;
+		void Move(float x, float y) noexcept override;
+		void Stop() noexcept override;
+
+	private:
 		IAudioCompositor * const	m_compositor;
 		ActiveVoice					*m_voice;
 	};

@@ -44,7 +44,6 @@ IAudioSource *XAudioCompositor::GetOscillatingSource(_In_ PFOSCILLATOR oscillato
 	if (voice)
 	{
 		source = new(std::nothrow) XAudioSource(this, voice);
-		voice->Start();
 		voice->Release();
 	}
 
@@ -111,6 +110,8 @@ void XAudioCompositor::FinalRelease() noexcept
 		m_xaudio2->Release();
 		m_xaudio2 = nullptr;
 	}
+
+	m_activeVoices.FinalCleanup();
 
 	_ASSERTE(nullptr == m_masteringVoice);
 	_ASSERTE(nullptr == m_xaudio2);
