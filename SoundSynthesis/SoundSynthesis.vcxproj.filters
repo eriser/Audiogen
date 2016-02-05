@@ -44,9 +44,6 @@
     <ClCompile Include="XAudioSynthesis\ActiveVoice.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
-    <ClCompile Include="XAudioSynthesis\XAudioFrame.cpp">
-      <Filter>XAudioSynthesis</Filter>
-    </ClCompile>
     <ClCompile Include="XAudioSynthesis\ActiveVoices.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
@@ -58,6 +55,9 @@
     </ClCompile>
     <ClCompile Include="CompositorVoice.cpp">
       <Filter>Runtime</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\AudioFrameSource.cpp">
+      <Filter>XAudioSynthesis</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -101,9 +101,6 @@
     <ClInclude Include="XAudioSynthesis\ActiveVoice.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
-    <ClInclude Include="XAudioSynthesis\XAudioFrame.h">
-      <Filter>XAudioSynthesis</Filter>
-    </ClInclude>
     <ClInclude Include="XAudioSynthesis\SampleWriter.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
@@ -118,6 +115,9 @@
     </ClInclude>
     <ClInclude Include="CompositorVoice.h">
       <Filter>Runtime</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\AudioFrameSource.h">
+      <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

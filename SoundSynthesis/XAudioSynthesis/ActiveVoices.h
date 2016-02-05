@@ -14,6 +14,8 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		ActiveVoices() noexcept;
 		~ActiveVoices() noexcept;
 
+		AudioFrameSource *FrameSource() noexcept { return &m_frameSource; }
+
 		bool Initialize() noexcept;
 		void TearDown() noexcept;
 		void FinalCleanup() noexcept;
@@ -39,5 +41,6 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		HANDLE					m_stopCleanupThread;	// waitable event set to stop the cleanup thread
 		CRITICAL_SECTION		m_monitor;
 		std::set<ActiveVoice*>	m_voices;
+		AudioFrameSource		m_frameSource;
 	};
 }}

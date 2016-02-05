@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "OscillatingActiveVoice.h"
-#include "XAudioFrame.h"
+#include "AudioFrameSource.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 using namespace SoundSynthesis::Helpers;
@@ -17,14 +17,14 @@ OscillatingActiveVoice::~OscillatingActiveVoice() noexcept
 }
 
 _Check_return_
-XAudioFrame *OscillatingActiveVoice::MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept
+XAUDIO2_BUFFER *OscillatingActiveVoice::MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept
 {
-	XAudioFrame *frame = XAudioFrame::Create(0, bytesRequired);
+	XAUDIO2_BUFFER *frame = FrameSource()->Allocate(0, bytesRequired);
 
 	if (frame)
 	{
 		size_t			sampleBlocks;
-		SampleWriter	writer = frame->GetSampleWriter(&sampleBlocks);
+		SampleWriter	writer = AudioFrameSource::GetSampleWriter(frame, &sampleBlocks);
 
 		sampleBlocks /= waveFormat->nChannels;
 

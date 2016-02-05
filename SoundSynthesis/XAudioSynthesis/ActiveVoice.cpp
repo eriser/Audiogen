@@ -95,15 +95,20 @@ ActiveVoice::~ActiveVoice() noexcept
 	_ASSERTE(nullptr == m_sourceVoice);
 }
 
-XAudioFrame *ActiveVoice::MakeEndOfStreamFrame(_In_ const WAVEFORMATEX *waveFormat) noexcept
+XAUDIO2_BUFFER *ActiveVoice::MakeEndOfStreamFrame(_In_ const WAVEFORMATEX *waveFormat) noexcept
 {
 	UNUSED(waveFormat);
-	return XAudioFrame::Create(XAUDIO2_END_OF_STREAM, waveFormat->nBlockAlign);
+	return FrameSource()->Allocate(XAUDIO2_END_OF_STREAM, waveFormat->nBlockAlign);
+}
+
+AudioFrameSource *ActiveVoice::FrameSource() const noexcept
+{
+	return m_container->FrameSource();
 }
 
 STDMETHODIMP_(void) ActiveVoice::OnVoiceProcessingPassStart(UINT32 BytesRequired) noexcept
 {
-	XAudioFrame *frame;
+	XAUDIO2_BUFFER *frame;
 
 	if (IsActive())
 	{
@@ -118,9 +123,9 @@ STDMETHODIMP_(void) ActiveVoice::OnVoiceProcessingPassStart(UINT32 BytesRequired
 
 	if (submitted)
 	{
-		if (!frame->Submit(m_sourceVoice))
+		if (!AudioFrameSource::Submit(frame, m_sourceVoice))
 		{
-			frame->Destroy();
+			FrameSource()->Release(frame);
 			submitted = false;
 		}
 	}
@@ -147,7 +152,8 @@ STDMETHODIMP_(void) ActiveVoice::OnBufferStart(void *pBufferContext) noexcept
 
 STDMETHODIMP_(void) ActiveVoice::OnBufferEnd(void *pBufferContext) noexcept
 {
-	XAudioFrame::FromContext(pBufferContext)->Destroy();
+	XAudioFrame *frame = AudioFrameSource::FromContext(pBufferContext);
+	m_container->FrameSource()->Release(frame);
 }
 
 STDMETHODIMP_(void) ActiveVoice::OnLoopEnd(void *pBufferContext) noexcept
@@ -158,5 +164,6 @@ STDMETHODIMP_(void) ActiveVoice::OnLoopEnd(void *pBufferContext) noexcept
 STDMETHODIMP_(void) ActiveVoice::OnVoiceError(void *pBufferContext, HRESULT Error) noexcept
 {
 	UNUSED(Error);
-	XAudioFrame::FromContext(pBufferContext)->Destroy();
+	XAudioFrame *frame = AudioFrameSource::FromContext(pBufferContext);
+	m_container->FrameSource()->Release(frame);
 }

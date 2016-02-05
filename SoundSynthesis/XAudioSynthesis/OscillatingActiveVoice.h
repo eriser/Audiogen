@@ -15,7 +15,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 
 	protected:
 		_Check_return_
-		XAudioFrame *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept override;
+		XAUDIO2_BUFFER *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept override;
 
 	private:
 		float GetNextSample() noexcept;

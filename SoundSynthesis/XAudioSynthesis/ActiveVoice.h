@@ -1,6 +1,6 @@
 #pragma once
 
-#include "XAudioFrame.h"
+#include "AudioFrameSource.h"
 
 namespace SoundSynthesis { namespace XAudioSynthesis
 {
@@ -31,8 +31,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		ActiveVoice(_In_ ActiveVoices *container, _In_ const WAVEFORMATEX *waveFormat) noexcept;
 		virtual ~ActiveVoice() noexcept;
 
-		virtual XAudioFrame *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept = 0;
-		XAudioFrame *MakeEndOfStreamFrame(_In_ const WAVEFORMATEX *waveFormat) noexcept;
+		AudioFrameSource *FrameSource() const noexcept;
+		virtual XAUDIO2_BUFFER *MakeAudioFrame(UINT32 bytesRequired, _In_ const WAVEFORMATEX *waveFormat) noexcept = 0;
+		XAUDIO2_BUFFER *MakeEndOfStreamFrame(_In_ const WAVEFORMATEX *waveFormat) noexcept;
 
 	private:
 		STDMETHODIMP_(void) OnVoiceProcessingPassStart(UINT32 BytesRequired) noexcept override;
