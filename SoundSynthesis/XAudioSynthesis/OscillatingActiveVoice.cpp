@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "OscillatingActiveVoice.h"
 #include "AudioFrameSource.h"
+#include "SampleWriter.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 using namespace SoundSynthesis::Helpers;

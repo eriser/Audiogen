@@ -258,6 +258,7 @@
     <ClInclude Include="XAudioSynthesis\OscillatingActiveVoice.h" />
     <ClInclude Include="XAudioSynthesis\Retainable.h" />
     <ClInclude Include="XAudioSynthesis\SampleWriter.h" />
+    <ClInclude Include="XAudioSynthesis\WhiteNoise.h" />
     <ClInclude Include="XAudioSynthesis\XAudioCompositor.h" />
     <ClInclude Include="XAudioSynthesis\XAudioSource.h" />
   </ItemGroup>
@@ -282,6 +283,7 @@
     <ClCompile Include="XAudioSynthesis\ActiveVoices.cpp" />
     <ClCompile Include="XAudioSynthesis\AudioFrameSource.cpp" />
     <ClCompile Include="XAudioSynthesis\OscillatingActiveVoice.cpp" />
+    <ClCompile Include="XAudioSynthesis\WhiteNoise.cpp" />
     <ClCompile Include="XAudioSynthesis\XAudioCompositor.cpp" />
     <ClCompile Include="XAudioSynthesis\XAudioSource.cpp" />
   </ItemGroup>

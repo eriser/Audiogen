@@ -152,7 +152,7 @@ STDMETHODIMP_(void) ActiveVoice::OnBufferStart(void *pBufferContext) noexcept
 
 STDMETHODIMP_(void) ActiveVoice::OnBufferEnd(void *pBufferContext) noexcept
 {
-	XAudioFrame *frame = AudioFrameSource::FromContext(pBufferContext);
+	XAUDIO2_BUFFER *frame = AudioFrameSource::FromContext(pBufferContext);
 	m_container->FrameSource()->Release(frame);
 }
 
@@ -164,6 +164,6 @@ STDMETHODIMP_(void) ActiveVoice::OnLoopEnd(void *pBufferContext) noexcept
 STDMETHODIMP_(void) ActiveVoice::OnVoiceError(void *pBufferContext, HRESULT Error) noexcept
 {
 	UNUSED(Error);
-	XAudioFrame *frame = AudioFrameSource::FromContext(pBufferContext);
+	XAUDIO2_BUFFER *frame = AudioFrameSource::FromContext(pBufferContext);
 	m_container->FrameSource()->Release(frame);
 }
