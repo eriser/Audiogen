@@ -24,6 +24,7 @@ XAudioCompositor::XAudioCompositor() noexcept
 	m_masteringVoice(nullptr)
 {
 	SecureZeroMemory(&m_waveFormat, sizeof(m_waveFormat));
+	m_waveFormat.cbSize = sizeof(m_waveFormat);
 	m_waveFormat.wFormatTag = WAVE_FORMAT_IEEE_FLOAT;
 	m_waveFormat.wBitsPerSample = sizeof(float) * 8;
 }

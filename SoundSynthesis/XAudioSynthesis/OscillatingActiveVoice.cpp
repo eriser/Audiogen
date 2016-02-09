@@ -24,12 +24,12 @@ XAUDIO2_BUFFER *OscillatingActiveVoice::MakeAudioFrame(UINT32 bytesRequired, _In
 
 	if (frame)
 	{
-		size_t			sampleBlocks;
-		SampleWriter	writer = AudioFrameSource::GetSampleWriter(frame, &sampleBlocks);
+		size_t			samples;
+		SampleWriter	writer = AudioFrameSource::GetSampleWriter(frame, &samples);
 
-		sampleBlocks /= waveFormat->nChannels;
+		samples /= waveFormat->nChannels;
 
-		for (size_t i = 0; i < sampleBlocks; ++i)
+		for (size_t i = 0; i < samples; ++i)
 		{
 			float sample = GetNextSample();
 			writer.Write(sample, waveFormat->nChannels);

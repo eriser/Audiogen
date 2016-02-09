@@ -17,10 +17,11 @@ namespace SoundSynthesis { namespace XAudioSynthesis {
 			return frame;
 		}
 
-		static SampleWriter GetSampleWriter(_In_ XAUDIO2_BUFFER *frame, _Out_ size_t *blockCount) noexcept
+		static SampleWriter GetSampleWriter(_In_ XAUDIO2_BUFFER *frame, _Out_ size_t *sampleCount) noexcept
 		{
-			*blockCount = frame->AudioBytes / sizeof(float);
-			return SampleWriter(static_cast<XAudioFrame*>(frame)->audioData, frame->AudioBytes / sizeof(float));
+			size_t frames = frame->AudioBytes / sizeof(float);
+			*sampleCount = frames;
+			return SampleWriter(static_cast<XAudioFrame*>(frame)->audioData, frames);
 		}
 
 		static bool Submit(_In_ XAUDIO2_BUFFER *frame, _In_ IXAudio2SourceVoice *sourceVoice) noexcept;

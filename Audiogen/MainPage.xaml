@@ -65,6 +65,8 @@
                 <TextBlock Text="Start Compositor"></TextBlock>
             </Button>
             <Button Margin="5,0" Command="{Binding StopCompositor}">Stop Compositor</Button>
+            <Button Margin="5,0" Command="{Binding StartWhiteNoise}">WN+</Button>
+            <Button Margin="5,0" Command="{Binding StopWhiteNoise}">WN-</Button>
         </StackPanel>
     </Grid>
 </Page>

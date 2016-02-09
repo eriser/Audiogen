@@ -2,6 +2,7 @@
 
 #include "CompositorVoice.h"
 #include "XAudioSynthesis\IAudioCompositor.h"
+#include "XAudioSynthesis\WhiteNoise.h"
 
 using namespace Microsoft::WRL;
 using namespace SoundSynthesis::XAudioSynthesis;
@@ -19,11 +20,15 @@ namespace SoundSynthesis { namespace Runtime
 		void Stop();
 		CompositorVoice ^GetVoice();
 
+		void StartWhiteNoise();
+		void StopWhiteNoise();
+
 	private:
 		Compositor();
 		bool Initialize();
 
 	private:
-		IAudioCompositor *m_compositor;
+		IAudioCompositor	*m_compositor;
+		WhiteNoise			m_whiteNoise;
 	};
 }}

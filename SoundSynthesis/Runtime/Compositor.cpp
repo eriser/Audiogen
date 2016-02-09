@@ -47,6 +47,16 @@ CompositorVoice ^Compositor::GetVoice()
 	return cv;
 }
 
+void Compositor::StartWhiteNoise()
+{
+	m_whiteNoise.Start();
+}
+
+void Compositor::StopWhiteNoise()
+{
+	m_whiteNoise.Stop();
+}
+
 Compositor::Compositor()
 :	m_compositor(nullptr)
 {

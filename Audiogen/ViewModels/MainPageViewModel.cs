@@ -2,6 +2,7 @@
 {
     using Audiogen.Models;
     using Helpers;
+    using SoundSynthesis.Runtime;
     using System;
     using System.Windows.Input;
 
@@ -12,7 +13,9 @@
         private readonly DelegateCommand _stop;
         private readonly DelegateCommand _startCompositor;
         private readonly DelegateCommand _stopCompositor;
+        private readonly DelegateCommand _startWhiteNoise, _stopWhiteNoise;
         private readonly PointerHandler _pointerHandler;
+        private readonly Compositor _whiteNoiseCompositor;
         private IPointerHandler _compositorPointerHandler;
         private IDispatcher _dispatcher;
         private ISynthesizer _synthesizer;
@@ -28,7 +31,10 @@
             _stop = new DelegateCommand(this.ExecuteStop, this.CanExecuteStop);
             _startCompositor = new DelegateCommand(this.ExecuteStartCompositor, this.CanExecuteStartCompositor);
             _stopCompositor = new DelegateCommand(this.ExecuteStopCompositor, this.CanExecuteStopCompositor);
+            _startWhiteNoise = new DelegateCommand(this.ExecuteStartWhiteNoise);
+            _stopWhiteNoise = new DelegateCommand(this.ExecuteStopWhiteNoise);
             _pointerHandler = new PointerHandler();
+            _whiteNoiseCompositor = Compositor.CreateCompositor();
             _isInitializing = true;
             _isReady = false;
             _isFailed = false;
@@ -142,6 +148,16 @@
             get { return _stopCompositor; }
         }
 
+        public ICommand StartWhiteNoise
+        {
+            get { return _startWhiteNoise; }
+        }
+
+        public ICommand StopWhiteNoise
+        {
+            get { return _stopWhiteNoise; }
+        }
+
         private void SetUpSynthesizerIfFullyComposed()
         {
             if(null != _synthesizer && null != _dispatcher)
@@ -215,6 +231,16 @@
         private bool CanExecuteStopCompositor(object parameter)
         {
             return null != this.CompositorPointerHandler;
+        }
+
+        private void ExecuteStartWhiteNoise(object parameter)
+        {
+            _whiteNoiseCompositor.StartWhiteNoise();
+        }
+
+        private void ExecuteStopWhiteNoise(object parameter)
+        {
+            _whiteNoiseCompositor.StopWhiteNoise();
         }
 
         private void Dispose(bool disposing)
