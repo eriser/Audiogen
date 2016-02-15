@@ -1,7 +1,17 @@
 #include "pch.h"
+#include "SourceVoice.h"
 #include "AudioEngine.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
+
+namespace
+{
+	struct DESTROY_SOURCE_VOICE_DATA
+	{
+		AudioEngine	*engine;
+		SourceVoice	*voice;
+	};
+}
 
 AudioEngine::AudioEngine() noexcept
 :	m_xaudio(nullptr),
@@ -79,9 +89,54 @@ void AudioEngine::StopEngine() noexcept
 	{
 		_ASSERTE(nullptr != m_master);
 		m_xaudio->StopEngine();
+		WorkerThread::Stop();
 		m_master->DestroyVoice();
 		m_master = nullptr;
+		DestroySourceVoices();
 		m_xaudio->Release();
 		m_xaudio = nullptr;
 	}
+}
+
+SourceVoice *AudioEngine::CreateSourceVoice() noexcept
+{
+	SourceVoice *voice = new(std::nothrow) SourceVoice(this);
+
+	if (voice)
+	{
+		if (!voice->Initialize(m_xaudio, m_master))
+		{
+			delete voice;
+			voice = nullptr;
+		}
+	}
+
+	return voice;
+}
+
+void AudioEngine::AsyncDestroySourceVoice(_In_ SourceVoice *voice) noexcept
+{
+	DESTROY_SOURCE_VOICE_DATA *data = new(std::nothrow) DESTROY_SOURCE_VOICE_DATA;
+
+	data->engine = this;
+	data->voice = voice;
+
+	WorkerThread::Queue(DestroySourceVoiceStub, reinterpret_cast<ULONG_PTR>(data));
+}
+
+void AudioEngine::DestroySourceVoices() noexcept
+{
+}
+
+VOID CALLBACK AudioEngine::DestroySourceVoiceStub(ULONG_PTR parameter) noexcept
+{
+	DESTROY_SOURCE_VOICE_DATA *data = reinterpret_cast<DESTROY_SOURCE_VOICE_DATA*>(parameter);
+	data->engine->DestroySourceVoiceProc(data->voice);
+	delete data;
+}
+
+void AudioEngine::DestroySourceVoiceProc(SourceVoice *voice) noexcept
+{
+	voice->TearDown();
+	delete voice;
 }

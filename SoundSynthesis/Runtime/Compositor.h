@@ -2,7 +2,7 @@
 
 #include "CompositorVoice.h"
 #include "XAudioSynthesis\IAudioCompositor.h"
-#include "XAudioSynthesis\WhiteNoise.h"
+#include "XAudioSynthesis\AudioEngine.h"
 
 using namespace Microsoft::WRL;
 using namespace SoundSynthesis::XAudioSynthesis;
@@ -29,6 +29,7 @@ namespace SoundSynthesis { namespace Runtime
 
 	private:
 		IAudioCompositor	*m_compositor;
-		WhiteNoise			m_whiteNoise;
+		AudioEngine			*m_audioEngine;
+		SourceVoice			*m_sourceVoice;
 	};
 }}

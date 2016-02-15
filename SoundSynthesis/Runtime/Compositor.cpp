@@ -2,11 +2,25 @@
 #include "Compositor.h"
 #include "XAudioSynthesis\XAudioCompositor.h"
 #include "Helpers\Oscillators.h"
+#include "XAudioSynthesis\SourceVoice.h"
 
 using namespace SoundSynthesis::Runtime;
 
+Compositor::Compositor()
+:	m_compositor(nullptr),
+	m_audioEngine(nullptr),
+	m_sourceVoice(nullptr)
+{
+	m_audioEngine = new AudioEngine();
+	m_audioEngine->StartEngine();
+}
+
 Compositor::~Compositor()
 {
+	m_audioEngine->StopEngine();
+	delete m_audioEngine;
+	m_audioEngine = nullptr;
+
 	m_compositor->Release();
 }
 
@@ -49,17 +63,14 @@ CompositorVoice ^Compositor::GetVoice()
 
 void Compositor::StartWhiteNoise()
 {
-	m_whiteNoise.Start();
+	m_sourceVoice = m_audioEngine->CreateSourceVoice();
+	m_sourceVoice->Start();
 }
 
 void Compositor::StopWhiteNoise()
 {
-	m_whiteNoise.Stop();
-}
-
-Compositor::Compositor()
-:	m_compositor(nullptr)
-{
+	m_sourceVoice->Stop();
+	m_sourceVoice = nullptr;
 }
 
 bool Compositor::Initialize()

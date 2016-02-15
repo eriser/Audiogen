@@ -59,13 +59,13 @@
     <ClCompile Include="XAudioSynthesis\AudioFrameSource.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
-    <ClCompile Include="XAudioSynthesis\WhiteNoise.cpp">
-      <Filter>XAudioSynthesis</Filter>
-    </ClCompile>
     <ClCompile Include="XAudioSynthesis\WorkerThread.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
     <ClCompile Include="XAudioSynthesis\AudioEngine.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\SourceVoice.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
   </ItemGroup>
@@ -128,13 +128,13 @@
     <ClInclude Include="XAudioSynthesis\AudioFrameSource.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
-    <ClInclude Include="XAudioSynthesis\WhiteNoise.h">
-      <Filter>XAudioSynthesis</Filter>
-    </ClInclude>
     <ClInclude Include="XAudioSynthesis\WorkerThread.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\AudioEngine.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\SourceVoice.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>
