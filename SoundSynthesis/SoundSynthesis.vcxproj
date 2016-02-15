@@ -249,20 +249,10 @@
     <ClInclude Include="Runtime\Compositor.h" />
     <ClInclude Include="Runtime\WavePlayer.h" />
     <ClInclude Include="Runtime\WaveSource.h" />
-    <ClInclude Include="XAudioSynthesis\ActiveVoice.h" />
-    <ClInclude Include="XAudioSynthesis\ActiveVoices.h" />
     <ClInclude Include="XAudioSynthesis\AudioEngine.h" />
     <ClInclude Include="XAudioSynthesis\AudioFrameSource.h" />
-    <ClInclude Include="XAudioSynthesis\IAudioCompositor.h" />
-    <ClInclude Include="XAudioSynthesis\IAudioSource.h" />
-    <ClInclude Include="XAudioSynthesis\IRetainable.h" />
-    <ClInclude Include="XAudioSynthesis\OscillatingActiveVoice.h" />
-    <ClInclude Include="XAudioSynthesis\Retainable.h" />
     <ClInclude Include="XAudioSynthesis\SampleWriter.h" />
     <ClInclude Include="XAudioSynthesis\SourceVoice.h" />
-    <ClInclude Include="XAudioSynthesis\WorkerThread.h" />
-    <ClInclude Include="XAudioSynthesis\XAudioCompositor.h" />
-    <ClInclude Include="XAudioSynthesis\XAudioSource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CompositorVoice.cpp" />
@@ -281,15 +271,9 @@
     <ClCompile Include="Runtime\Compositor.cpp" />
     <ClCompile Include="Runtime\WavePlayer.cpp" />
     <ClCompile Include="Runtime\WaveSource.cpp" />
-    <ClCompile Include="XAudioSynthesis\ActiveVoice.cpp" />
-    <ClCompile Include="XAudioSynthesis\ActiveVoices.cpp" />
     <ClCompile Include="XAudioSynthesis\AudioEngine.cpp" />
     <ClCompile Include="XAudioSynthesis\AudioFrameSource.cpp" />
-    <ClCompile Include="XAudioSynthesis\OscillatingActiveVoice.cpp" />
     <ClCompile Include="XAudioSynthesis\SourceVoice.cpp" />
-    <ClCompile Include="XAudioSynthesis\WorkerThread.cpp" />
-    <ClCompile Include="XAudioSynthesis\XAudioCompositor.cpp" />
-    <ClCompile Include="XAudioSynthesis\XAudioSource.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

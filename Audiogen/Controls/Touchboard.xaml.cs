@@ -41,16 +41,21 @@
 
             if(null != this.PointerHandler)
             {
-                PointerPoint point = e.GetCurrentPoint(this);
+                IPointerTracker newTracker;
 
-                IPointerTracker newTracker = this.PointerHandler.TrackPointer(new PointerPosition(
-                                                point.Position.X / this.ActualWidth,
-                                                point.Position.Y / this.ActualHeight));
-
-                if (null != newTracker)
+                if (!_pointerTrackers.TryGetValue(e.Pointer.PointerId, out newTracker))
                 {
-                    Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
-                    _pointerTrackers.Add(e.Pointer.PointerId, newTracker);
+                    PointerPoint point = e.GetCurrentPoint(this);
+
+                    newTracker = this.PointerHandler.TrackPointer(new PointerPosition(
+                                    point.Position.X / this.ActualWidth,
+                                    point.Position.Y / this.ActualHeight));
+
+                    if (null != newTracker)
+                    {
+                        Contract.Assert(!_pointerTrackers.ContainsKey(e.Pointer.PointerId));
+                        _pointerTrackers.Add(e.Pointer.PointerId, newTracker);
+                    }
                 }
             }
         }

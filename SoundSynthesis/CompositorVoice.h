@@ -1,6 +1,6 @@
 #pragma once
 
-#include "XAudioSynthesis\IAudioSource.h"
+#include "XAudioSynthesis\SourceVoice.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
@@ -12,14 +12,15 @@ namespace SoundSynthesis { namespace Runtime
 		virtual ~CompositorVoice();
 
 		void Start(double x, double y);
+		void Move(double x, double y);
 
 	internal:
-		static CompositorVoice ^Create(_In_ IAudioSource *voice);
+		static CompositorVoice ^Create(_In_ SourceVoice *voice);
 
 	private:
-		CompositorVoice(_In_ IAudioSource *voice);
+		CompositorVoice(_In_ SourceVoice *voice);
 
 	private:
-		IAudioSource * const m_voice;
+		SourceVoice * const m_voice;
 	};
 }}

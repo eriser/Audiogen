@@ -30,7 +30,7 @@ bool SourceVoice::CreateResources(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *out
 	sd->pOutputVoice = output;
 	m_eofBytes = waveFormat->nBlockAlign;
 
-	return SUCCEEDED(xaudio->CreateSourceVoice(&m_voice, waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this, sends, NULL));
+	return SUCCEEDED(xaudio->CreateSourceVoice(&m_voice, waveFormat, XAUDIO2_VOICE_NOSRC, XAUDIO2_DEFAULT_FREQ_RATIO, this, sends, NULL));
 }
 
 void SourceVoice::TearDown() noexcept
@@ -42,9 +42,11 @@ void SourceVoice::TearDown() noexcept
 }
 
 _Check_return_
-bool SourceVoice::Start() noexcept
+bool SourceVoice::Start(double x, double y) noexcept
 {
 	_ASSERTE(nullptr != m_voice);
+	UNUSED(x);
+	UNUSED(y);
 
 	bool started = false;
 
@@ -65,6 +67,12 @@ bool SourceVoice::Start() noexcept
 	}
 
 	return started;
+}
+
+void SourceVoice::Move(double x, double y) noexcept
+{
+	UNUSED(x);
+	UNUSED(y);
 }
 
 void SourceVoice::Stop() noexcept

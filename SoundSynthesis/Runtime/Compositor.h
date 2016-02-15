@@ -1,7 +1,6 @@
 #pragma once
 
 #include "CompositorVoice.h"
-#include "XAudioSynthesis\IAudioCompositor.h"
 #include "XAudioSynthesis\AudioEngine.h"
 
 using namespace Microsoft::WRL;
@@ -20,16 +19,11 @@ namespace SoundSynthesis { namespace Runtime
 		void Stop();
 		CompositorVoice ^GetVoice();
 
-		void StartWhiteNoise();
-		void StopWhiteNoise();
-
 	private:
 		Compositor();
 		bool Initialize();
 
 	private:
-		IAudioCompositor	*m_compositor;
-		AudioEngine			*m_audioEngine;
-		SourceVoice			*m_sourceVoice;
+		AudioEngine	*m_audioEngine;
 	};
 }}

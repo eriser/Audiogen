@@ -15,7 +15,8 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		bool CreateResources(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *output, const WAVEFORMATEX *waveFormat) noexcept;
 		void TearDown() noexcept;
 		_Check_return_
-		bool Start() noexcept;
+		bool Start(double x, double y) noexcept;
+		void Move(double x, double y) noexcept;
 		void Stop() noexcept;
 
 	private:

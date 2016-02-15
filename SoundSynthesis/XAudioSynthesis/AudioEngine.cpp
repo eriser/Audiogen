@@ -38,7 +38,7 @@ bool AudioEngine::StartEngine() noexcept
 		else
 		{
 			if (FAILED(m_xaudio->CreateMasteringVoice(&m_master, XAUDIO2_DEFAULT_CHANNELS, XAUDIO2_DEFAULT_SAMPLERATE,
-				0, NULL, NULL, AudioCategory_GameMedia)))
+				0, NULL, NULL, AudioCategory_GameEffects)))
 			{
 				started = false;
 			}
