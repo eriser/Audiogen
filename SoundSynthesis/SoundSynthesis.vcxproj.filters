@@ -62,6 +62,12 @@
     <ClCompile Include="XAudioSynthesis\WhiteNoise.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
+    <ClCompile Include="XAudioSynthesis\WorkerThread.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
+    <ClCompile Include="XAudioSynthesis\AudioEngine.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -123,6 +129,12 @@
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\WhiteNoise.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\WorkerThread.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\AudioEngine.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>
