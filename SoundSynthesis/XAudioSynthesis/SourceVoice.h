@@ -3,20 +3,25 @@
 namespace SoundSynthesis { namespace XAudioSynthesis
 {
 	class AudioEngine;
+	class AudioFrameSource;
 
 	class SourceVoice sealed : IXAudio2VoiceCallback
 	{
 	public:
-		SourceVoice(_In_ AudioEngine *engine) noexcept;
+		SourceVoice(_In_ AudioEngine *engine, _In_ AudioFrameSource *frameSource) noexcept;
 		~SourceVoice() noexcept;
 
-		bool Initialize(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *output) noexcept;
+		_Check_return_
+		bool CreateResources(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *output, const WAVEFORMATEX *waveFormat) noexcept;
 		void TearDown() noexcept;
+		_Check_return_
 		bool Start() noexcept;
 		void Stop() noexcept;
 
 	private:
+		//
 		// Inherited via IXAudio2VoiceCallback
+		//
 		void OnVoiceProcessingPassStart(UINT32 BytesRequired) noexcept override;
 		void OnVoiceProcessingPassEnd() noexcept override;
 		void OnStreamEnd() noexcept override;
@@ -26,11 +31,12 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		void OnVoiceError(void *pBufferContext, HRESULT error) noexcept override;
 
 	private:
-		volatile INT16		m_started;
-		AudioEngine * const	m_engine;
-		IXAudio2SourceVoice	*m_voice;
-		IXAudio2Voice		*m_output;
-		XAUDIO2_BUFFER		*m_eofBuffer;
+		volatile INT16				m_started;
+		AudioEngine * const			m_engine;
+		AudioFrameSource * const	m_frameSource;
+		IXAudio2SourceVoice			*m_voice;
+		bool						m_eofSent;
+		WORD						m_eofBytes;
 	};
 
 }}

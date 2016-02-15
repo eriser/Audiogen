@@ -4,86 +4,58 @@
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
-SourceVoice::SourceVoice(_In_ AudioEngine *engine) noexcept
+SourceVoice::SourceVoice(_In_ AudioEngine *engine, _In_ AudioFrameSource *frameSource) noexcept
 :	m_started(0),
 	m_engine(engine),
+	m_frameSource(frameSource),
 	m_voice(nullptr),
-	m_output(nullptr),
-	m_eofBuffer(nullptr)
+	m_eofSent(false),
+	m_eofBytes(0)
 {
 }
 
 SourceVoice::~SourceVoice() noexcept
 {
 	_ASSERTE(nullptr == m_voice);
-	_ASSERTE(nullptr == m_output);
-	_ASSERTE(nullptr == m_eofBuffer);
 }
 
-bool SourceVoice::Initialize(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *output) noexcept
+_Check_return_
+bool SourceVoice::CreateResources(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *output, const WAVEFORMATEX *waveFormat) noexcept
 {
-	_ASSERTE(nullptr == m_eofBuffer);
+	XAUDIO2_SEND_DESCRIPTOR	sd[1] = { 0 };
+	XAUDIO2_VOICE_SENDS		sends[1] = { 0 };
 
-	bool initialized = false;
+	sends->SendCount = _ARRAYSIZE(sd);
+	sends->pSends = sd;
+	sd->pOutputVoice = output;
+	m_eofBytes = waveFormat->nBlockAlign;
 
-	m_eofBuffer = m_engine->GetFrameSource()->Allocate(XAUDIO2_END_OF_STREAM, m_engine->GetWaveFormat()->nBlockAlign);
-
-	if (nullptr != m_eofBuffer)
-	{
-		XAUDIO2_VOICE_SENDS	sends[1] = { 0 };
-
-		if (SUCCEEDED(xaudio->CreateSourceVoice(&m_voice, m_engine->GetWaveFormat(), 0, XAUDIO2_DEFAULT_FREQ_RATIO, this, sends, NULL)))
-		{
-			m_output = output;
-			initialized = true;
-		}
-		else
-		{
-			m_engine->GetFrameSource()->Release(m_eofBuffer);
-			m_eofBuffer = nullptr;
-		}
-	}
-
-	return initialized;
+	return SUCCEEDED(xaudio->CreateSourceVoice(&m_voice, waveFormat, 0, XAUDIO2_DEFAULT_FREQ_RATIO, this, sends, NULL));
 }
 
 void SourceVoice::TearDown() noexcept
 {
 	_ASSERTE(0 == m_started);
 	_ASSERTE(nullptr != m_voice);
-	_ASSERTE(nullptr == m_eofBuffer);
 	m_voice->DestroyVoice();
 	m_voice = nullptr;
-	m_output = nullptr;
 }
 
+_Check_return_
 bool SourceVoice::Start() noexcept
 {
+	_ASSERTE(nullptr != m_voice);
+
 	bool started = false;
 
 	if (0 == _InterlockedCompareExchange16(&m_started, 1, 0))
 	{
-		_ASSERTE(nullptr != m_voice);
+		m_voice->FlushSourceBuffers();
+		m_eofSent = false;
 
-		XAUDIO2_SEND_DESCRIPTOR	sd[1] = { 0 };
-		XAUDIO2_VOICE_SENDS	sends[1] = { 0 };
-
-		sends->SendCount = 1;
-		sends->pSends = sd;
-		sd->pOutputVoice = m_output;
-
-		if (SUCCEEDED(m_voice->SetOutputVoices(sends)))
+		if (SUCCEEDED(m_voice->Start()))
 		{
-			if (FAILED(m_voice->Start()))
-			{
-				sends->SendCount = 0;
-				sends->pSends = nullptr;
-				m_voice->SetOutputVoices(sends);
-			}
-			else
-			{
-				started = true;
-			}
+			started = true;
 		}
 
 		if (!started)
@@ -109,34 +81,33 @@ void SourceVoice::OnVoiceProcessingPassStart(UINT32 bytesRequired) noexcept
 
 	if (0 == m_started)
 	{
-		if (nullptr != m_eofBuffer)
+		if (!m_eofSent)
 		{
-			XAUDIO2_BUFFER *buffer = m_eofBuffer;
-			m_eofBuffer = nullptr;
-			m_engine->GetFrameSource()->Submit(buffer, m_voice);
+			XAUDIO2_BUFFER *buffer = m_frameSource->Allocate(XAUDIO2_END_OF_STREAM, m_eofBytes);
+			m_eofSent = m_frameSource->Submit(buffer, m_voice);
 		}
 	}
 	else
 	{
 		size_t samples;
-		XAUDIO2_BUFFER *frame = m_engine->GetFrameSource()->Allocate(0, bytesRequired);
-		SampleWriter writer = m_engine->GetFrameSource()->GetSampleWriter(frame, &samples);
+		XAUDIO2_BUFFER *frame = m_frameSource->Allocate(0, bytesRequired);
+		SampleWriter writer = m_frameSource->GetSampleWriter(frame, &samples);
 
 		for (size_t s = 0; s < samples; ++s)
 		{
 			writer.Write((static_cast<float>(rand() % 100) - 50.0f) / 100.0f, 1);
 		}
 
-		m_engine->GetFrameSource()->Submit(frame, m_voice);
+		m_frameSource->Submit(frame, m_voice);
 	}
 }
 
 void SourceVoice::OnVoiceProcessingPassEnd() noexcept
 {
-	if (nullptr == m_eofBuffer)
+	if (m_eofSent)
 	{
 		m_voice->Stop();
-		m_engine->AsyncDestroySourceVoice(this);
+		m_engine->RecycleSourceVoice(this);
 	}
 }
 
@@ -151,7 +122,7 @@ void SourceVoice::OnBufferStart(void *pBufferContext) noexcept
 
 void SourceVoice::OnBufferEnd(void *pBufferContext) noexcept
 {
-	m_engine->GetFrameSource()->Release(AudioFrameSource::FromContext(pBufferContext));
+	m_frameSource->Release(AudioFrameSource::FromContext(pBufferContext));
 }
 
 void SourceVoice::OnLoopEnd(void *pBufferContext) noexcept

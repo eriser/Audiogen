@@ -12,5 +12,6 @@
 #include <process.h>
 
 #include <set>
+#include <list>
 
 #define UNUSED(parameter) ((void)parameter)

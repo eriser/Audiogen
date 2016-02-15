@@ -4,20 +4,12 @@
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
-namespace
-{
-	struct DESTROY_SOURCE_VOICE_DATA
-	{
-		AudioEngine	*engine;
-		SourceVoice	*voice;
-	};
-}
-
 AudioEngine::AudioEngine() noexcept
 :	m_xaudio(nullptr),
 	m_master(nullptr)
 {
 	::SecureZeroMemory(&m_waveFormat, sizeof(m_waveFormat));
+	::SecureZeroMemory(&m_guard, sizeof(m_guard));
 }
 
 AudioEngine::~AudioEngine() noexcept
@@ -29,13 +21,17 @@ AudioEngine::~AudioEngine() noexcept
 _Check_return_
 bool AudioEngine::StartEngine() noexcept
 {
-	bool started = WorkerThread::Start();
+	_ASSERTE(nullptr == m_xaudio);
 
-	if (started)
+	bool started = true;
+
+	if (FAILED(::XAudio2Create(&m_xaudio)))
 	{
-		_ASSERTE(nullptr == m_xaudio);
-
-		if (FAILED(::XAudio2Create(&m_xaudio)))
+		started = false;
+	}
+	else
+	{
+		if (!::InitializeCriticalSectionEx(&m_guard, 4000, 0))
 		{
 			started = false;
 		}
@@ -48,6 +44,7 @@ bool AudioEngine::StartEngine() noexcept
 			}
 			else
 			{
+
 				XAUDIO2_VOICE_DETAILS details;
 
 				m_master->GetVoiceDetails(&details);
@@ -69,14 +66,14 @@ bool AudioEngine::StartEngine() noexcept
 
 			if (!started)
 			{
-				m_xaudio->Release();
-				m_xaudio = nullptr;
+				::DeleteCriticalSection(&m_guard);
 			}
 		}
 
 		if (!started)
 		{
-			WorkerThread::Stop();
+			m_xaudio->Release();
+			m_xaudio = nullptr;
 		}
 	}
 
@@ -89,54 +86,94 @@ void AudioEngine::StopEngine() noexcept
 	{
 		_ASSERTE(nullptr != m_master);
 		m_xaudio->StopEngine();
-		WorkerThread::Stop();
 		m_master->DestroyVoice();
 		m_master = nullptr;
-		DestroySourceVoices();
+		DestroySourceVoicePool();
 		m_xaudio->Release();
 		m_xaudio = nullptr;
+		::DeleteCriticalSection(&m_guard);
+		::SecureZeroMemory(&m_guard, sizeof(m_guard));
+		::SecureZeroMemory(&m_waveFormat, sizeof(m_waveFormat));
 	}
 }
 
 SourceVoice *AudioEngine::CreateSourceVoice() noexcept
 {
-	SourceVoice *voice = new(std::nothrow) SourceVoice(this);
+	SourceVoice *voice = nullptr;
 
-	if (voice)
+	::EnterCriticalSection(&m_guard);
+
+	if (!m_voicePool.empty())
 	{
-		if (!voice->Initialize(m_xaudio, m_master))
-		{
-			delete voice;
-			voice = nullptr;
-		}
+		voice = m_voicePool.front();
+		m_voicePool.pop_front();
+		::LeaveCriticalSection(&m_guard);
+	}
+	else
+	{
+		::LeaveCriticalSection(&m_guard);
+		voice = InternalCreateSourceVoice();
 	}
 
 	return voice;
 }
 
-void AudioEngine::AsyncDestroySourceVoice(_In_ SourceVoice *voice) noexcept
+void AudioEngine::RecycleSourceVoice(_In_ SourceVoice *voice) noexcept
 {
-	DESTROY_SOURCE_VOICE_DATA *data = new(std::nothrow) DESTROY_SOURCE_VOICE_DATA;
-
-	data->engine = this;
-	data->voice = voice;
-
-	WorkerThread::Queue(DestroySourceVoiceStub, reinterpret_cast<ULONG_PTR>(data));
+	::EnterCriticalSection(&m_guard);
+	m_voicePool.push_back(voice);
+	::LeaveCriticalSection(&m_guard);
 }
 
-void AudioEngine::DestroySourceVoices() noexcept
+_Check_return_
+SourceVoice *AudioEngine::InternalCreateSourceVoice() noexcept
 {
+	SourceVoice *voice = new(std::nothrow) SourceVoice(this, &m_frameSource);
+
+	if (nullptr != voice && !voice->CreateResources(m_xaudio, m_master, &m_waveFormat))
+	{
+		delete voice;
+		voice = nullptr;
+	}
+
+	return voice;
 }
 
-VOID CALLBACK AudioEngine::DestroySourceVoiceStub(ULONG_PTR parameter) noexcept
+_Check_return_
+bool AudioEngine::CreateSourceVoicePool() noexcept
 {
-	DESTROY_SOURCE_VOICE_DATA *data = reinterpret_cast<DESTROY_SOURCE_VOICE_DATA*>(parameter);
-	data->engine->DestroySourceVoiceProc(data->voice);
-	delete data;
+	_ASSERTE(nullptr != m_xaudio);
+
+	bool created = true;
+
+	for (int i = 0; created && i < SOURCE_VOICE_POOL_SIZE; ++i)
+	{
+		SourceVoice *voice = InternalCreateSourceVoice();
+
+		if (nullptr != voice)
+		{
+			m_voicePool.push_back(voice);
+		}
+		else
+		{
+			DestroySourceVoicePool();
+			created = false;
+		}
+	}
+
+	return created;
 }
 
-void AudioEngine::DestroySourceVoiceProc(SourceVoice *voice) noexcept
+void AudioEngine::DestroySourceVoicePool() noexcept
 {
-	voice->TearDown();
-	delete voice;
+	_ASSERTE(nullptr != m_xaudio);
+
+	while (!m_voicePool.empty())
+	{
+		SourceVoice *voice = m_voicePool.front();
+		m_voicePool.pop_front();
+
+		voice->TearDown();
+		delete voice;
+	}
 }
