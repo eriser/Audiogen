@@ -34,6 +34,8 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 
 	private:
 		volatile INT16				m_started;
+		CRITICAL_SECTION			m_guardData;
+		LPCRITICAL_SECTION			m_guard;
 		AudioEngine * const			m_engine;
 		AudioFrameSource * const	m_frameSource;
 		IXAudio2SourceVoice			*m_voice;

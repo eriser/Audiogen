@@ -16,6 +16,7 @@
 
             void IPointerTracker.Move(PointerPosition position)
             {
+                m_voice.Move(position.X, position.Y);
             }
 
             void Dispose(bool disposing)
