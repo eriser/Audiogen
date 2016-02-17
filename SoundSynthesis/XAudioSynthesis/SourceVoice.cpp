@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SourceVoice.h"
 #include "AudioEngine.h"
+#include "SampleProducer.h"
 
 using namespace SoundSynthesis::XAudioSynthesis;
 
@@ -10,13 +11,16 @@ SourceVoice::SourceVoice(_In_ AudioEngine *engine, _In_ AudioFrameSource *frameS
 	m_frameSource(frameSource),
 	m_voice(nullptr),
 	m_eofSent(false),
-	m_eofBytes(0)
+	m_eofBytes(0),
+	m_sampleProducer(nullptr),
+	m_channelsNumber(0)
 {
 }
 
 SourceVoice::~SourceVoice() noexcept
 {
 	_ASSERTE(nullptr == m_voice);
+	_ASSERTE(nullptr == m_sampleProducer);
 }
 
 _Check_return_
@@ -29,6 +33,8 @@ bool SourceVoice::CreateResources(_In_ IXAudio2 *xaudio, _In_ IXAudio2Voice *out
 	sends->pSends = sd;
 	sd->pOutputVoice = output;
 	m_eofBytes = waveFormat->nBlockAlign;
+	m_channelsNumber = waveFormat->nChannels;
+	m_sampleProducer = new(std::nothrow) SampleProducer(StringOscillator, waveFormat);
 
 	return SUCCEEDED(xaudio->CreateSourceVoice(&m_voice, waveFormat, XAUDIO2_VOICE_NOSRC, XAUDIO2_DEFAULT_FREQ_RATIO, this, sends, NULL));
 }
@@ -39,6 +45,8 @@ void SourceVoice::TearDown() noexcept
 	_ASSERTE(nullptr != m_voice);
 	m_voice->DestroyVoice();
 	m_voice = nullptr;
+	delete m_sampleProducer;
+	m_sampleProducer = nullptr;
 }
 
 _Check_return_
@@ -54,6 +62,9 @@ bool SourceVoice::Start(double x, double y) noexcept
 	{
 		m_voice->FlushSourceBuffers();
 		m_eofSent = false;
+
+		m_sampleProducer->SetFrequency(440.0);
+		m_sampleProducer->ResetPhase();
 
 		if (SUCCEEDED(m_voice->Start()))
 		{
@@ -101,9 +112,9 @@ void SourceVoice::OnVoiceProcessingPassStart(UINT32 bytesRequired) noexcept
 		XAUDIO2_BUFFER *frame = m_frameSource->Allocate(0, bytesRequired);
 		SampleWriter writer = m_frameSource->GetSampleWriter(frame, &samples);
 
-		for (size_t s = 0; s < samples; ++s)
+		for (size_t s = 0; s < samples / m_channelsNumber; ++s)
 		{
-			writer.Write((static_cast<float>(rand() % 100) - 50.0f) / 100.0f, 1);
+			writer.Write(0.85f * m_sampleProducer->GetSample(), m_channelsNumber);
 		}
 
 		m_frameSource->Submit(frame, m_voice);

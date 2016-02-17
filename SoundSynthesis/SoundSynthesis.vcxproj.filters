@@ -50,6 +50,9 @@
     <ClCompile Include="XAudioSynthesis\SourceVoice.cpp">
       <Filter>XAudioSynthesis</Filter>
     </ClCompile>
+    <ClCompile Include="XAudioSynthesis\SampleProducer.cpp">
+      <Filter>XAudioSynthesis</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
@@ -87,6 +90,9 @@
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
     <ClInclude Include="XAudioSynthesis\SourceVoice.h">
+      <Filter>XAudioSynthesis</Filter>
+    </ClInclude>
+    <ClInclude Include="XAudioSynthesis\SampleProducer.h">
       <Filter>XAudioSynthesis</Filter>
     </ClInclude>
   </ItemGroup>

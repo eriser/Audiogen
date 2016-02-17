@@ -46,7 +46,6 @@ CompositorVoice ^Compositor::GetVoice()
 
 	if (nullptr != voice)
 	{
-		OutputDebugString(TEXT("Compositor::GetVoice()\n"));
 		cv = CompositorVoice::Create(voice);
 	}
 

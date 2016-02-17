@@ -35,7 +35,7 @@
     <MinimumVisualStudioVersion>14.0</MinimumVisualStudioVersion>
     <AppContainerApplication>true</AppContainerApplication>
     <ApplicationType>Windows Store</ApplicationType>
-    <WindowsTargetPlatformVersion>10.0.10240.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.10586.0</WindowsTargetPlatformVersion>
     <WindowsTargetPlatformMinVersion>10.0.10240.0</WindowsTargetPlatformMinVersion>
     <ApplicationTypeRevision>10.0</ApplicationTypeRevision>
   </PropertyGroup>
@@ -251,6 +251,7 @@
     <ClInclude Include="Runtime\WaveSource.h" />
     <ClInclude Include="XAudioSynthesis\AudioEngine.h" />
     <ClInclude Include="XAudioSynthesis\AudioFrameSource.h" />
+    <ClInclude Include="XAudioSynthesis\SampleProducer.h" />
     <ClInclude Include="XAudioSynthesis\SampleWriter.h" />
     <ClInclude Include="XAudioSynthesis\SourceVoice.h" />
   </ItemGroup>
@@ -273,6 +274,7 @@
     <ClCompile Include="Runtime\WaveSource.cpp" />
     <ClCompile Include="XAudioSynthesis\AudioEngine.cpp" />
     <ClCompile Include="XAudioSynthesis\AudioFrameSource.cpp" />
+    <ClCompile Include="XAudioSynthesis\SampleProducer.cpp" />
     <ClCompile Include="XAudioSynthesis\SourceVoice.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

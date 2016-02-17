@@ -4,6 +4,7 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 {
 	class AudioEngine;
 	class AudioFrameSource;
+	class SampleProducer;
 
 	class SourceVoice sealed : IXAudio2VoiceCallback
 	{
@@ -36,8 +37,10 @@ namespace SoundSynthesis { namespace XAudioSynthesis
 		AudioEngine * const			m_engine;
 		AudioFrameSource * const	m_frameSource;
 		IXAudio2SourceVoice			*m_voice;
+		size_t						m_channelsNumber;
 		bool						m_eofSent;
 		WORD						m_eofBytes;
+		SampleProducer				*m_sampleProducer;
 	};
 
 }}
