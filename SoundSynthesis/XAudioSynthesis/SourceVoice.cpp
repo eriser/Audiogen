@@ -151,7 +151,12 @@ void SourceVoice::OnVoiceProcessingPassStart(UINT32 bytesRequired) noexcept
 		}
 		::LeaveCriticalSection(m_guard);
 
-		m_frameSource->Submit(frame, m_voice);
+		if (!m_frameSource->Submit(frame, m_voice))
+		{
+			//
+			// TODO: report an error
+			//
+		}
 	}
 }
 

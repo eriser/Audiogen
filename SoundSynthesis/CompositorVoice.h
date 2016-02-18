@@ -11,7 +11,8 @@ namespace SoundSynthesis { namespace Runtime
 	public:
 		virtual ~CompositorVoice();
 
-		void Start(double x, double y);
+		_Check_return_
+		bool Start(double x, double y);
 		void Move(double x, double y);
 
 	internal:

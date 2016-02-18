@@ -24,7 +24,9 @@ namespace SoundSynthesis { namespace XAudioSynthesis {
 			return SampleWriter(static_cast<XAudioFrame*>(frame)->audioData, frames);
 		}
 
+		_Check_return_
 		static bool Submit(_In_ XAUDIO2_BUFFER *frame, _In_ IXAudio2SourceVoice *sourceVoice) noexcept;
+		_Check_return_
 		XAUDIO2_BUFFER *Allocate(UINT32 flags, UINT32 audioBytes) noexcept;
 		void Release(_In_ XAUDIO2_BUFFER *buffer) noexcept;
 

@@ -8,9 +8,10 @@ CompositorVoice::~CompositorVoice()
 	m_voice->Stop();
 }
 
-void CompositorVoice::Start(double x, double y)
+_Check_return_
+bool CompositorVoice::Start(double x, double y)
 {
-	m_voice->Start(x, y);
+	return m_voice->Start(x, y);
 }
 
 void CompositorVoice::Move(double x, double y)
