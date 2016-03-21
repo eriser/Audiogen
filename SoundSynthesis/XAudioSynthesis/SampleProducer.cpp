@@ -17,10 +17,9 @@ SampleProducer::~SampleProducer() noexcept
 
 float SampleProducer::GetSample() noexcept
 {
-	double sampleAngle = m_sampleAngleFactor * m_frequency;
 	float sample = static_cast<float>((*m_oscillator)(m_phase));
 
-	m_phase += sampleAngle;
+	m_phase += m_sampleAngleFactor * m_frequency;
 	if (m_phase >= M_PI * 2.0)
 		m_phase -= M_PI * 2.0;
 
